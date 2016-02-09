@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+   <head>
+     <title>Cannabidata Lab Application</title>
+      <%- partial('partials/header.ejs') %>
+   </head>
+   <body>      
+  <div id="wrapper">
+   <header>
+     <div class="logo">
+       Cannabidata
+     </div>
+   </header>
+   <section class="searchbar error_bar">
+   </section>
+   <section class="container">
+    <header>
+      <h1>Cannabidata Lab App</h1>
+    </header>
+    <section class="error_page">
+      <h3>Not Found</h3>
+      <% if (typeof message !== 'undefined') { %>
+        <p><%= message %></p>
+      <% } %>
+      <p>The item you were looking for cannot be found.</p>
+      <p>It is best to go back from whence you came. <a href="javascript:window.history.go(-1)">Go back</a>.
+    </section>
+    </section>
+    <footer>
+     </footer>
+  </div>
+  <script type="text/javascript" src="https://cannatest.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e/en_USjwg7mh-1988229788/6206/7/1.4.1/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=e82fbbdd"></script>
+   </body>
+</html>

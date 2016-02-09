@@ -1,0 +1,34 @@
+<a href="/accesspoint/new" class="new"><i class="ss-icon">&#xE6D0;</i>New Access Point</a>
+<%- partial('../partials/search', { model : AccessPoint } ) %>
+
+<form method="get" action="" id="accesspointList" name="<%- HTMLHelper.formName() %>">
+   <fieldset>
+      <legend>List Access Points</legend>
+      <table class="dataTable">
+         <thead>
+            <tr>
+               <th><%- HTMLHelper.tableHeaderSortable('access_points.id', 'ID', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('access_points.name', 'Name', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('access_points.city', 'City', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('access_points.state', 'State', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('access_points.created', 'Created', req.query.dir, req.query)%></th>
+            </tr>
+         </thead>
+         <tbody>
+         <% for(var i = 0; i < accesspoints.length; i++) { %>
+            <tr>
+               <td><%= accesspoints[i].id %></td>
+               <td><%= accesspoints[i].name %></td>
+               <td><%= accesspoints[i].city %></td>
+               <td><%= accesspoints[i].state %></td>
+               <td><%= Globalize.format(accesspoints[i].created, 'yyyy-MM-dd') %></td>
+               <td><a href="/accesspoint/edit/<%= accesspoints[i].id %>">Edit</a></td>
+            </tr>         
+         <% } %>      
+         </tbody>
+      </table>
+      
+      <%- partial('../partials/pagination', { list : 'accesspoint' }) %>
+      
+   </fieldset>
+</form>

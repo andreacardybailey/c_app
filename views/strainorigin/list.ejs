@@ -1,0 +1,38 @@
+<% if (req.query.strain) { %>
+  <a href="/strain/edit/<%= req.query.strain %>" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } %>
+
+<% if(session.user.hasPermission('strains.create')) { %>
+<a href="/strainorigin/new<%= req.query.strain ? '?strain='+req.query.strain : ''%>" class="new"><i class="ss-icon">&#xEE00;</i>New Strain Origin</a>
+<% } %>
+
+<%- partial('../partials/search', { model : StrainOrigin } ) %>
+
+<form method="get" action="" id="strainoriginList" name="<%- HTMLHelper.formName() %>">
+   <fieldset>
+      <legend>List Strain Origins</legend>
+      <% if(req.query.strain) {%>
+      <p><button class="button" type="button" data-href="/strain/edit/<%= req.query.strain %>">Back to Strain</button></p>
+      <% } %>
+      <table class="dataTable">
+         <thead>
+            <tr>
+               <th>ID</th><th>Strain</th><th>Parent Strain</th><th>Paternity</th><th></th>
+            </tr>
+         </thead>
+         <tbody>
+         <% for(var i = 0; i < origins.length; i++) { %>
+            <tr>
+               <td><%= origins[i].id %></td>
+               <td><%= origins[i].strain_name %></td>
+               <td><%= origins[i].strain_parent_name %></td>
+               <td><%= origins[i].paternity %></td>
+               <td><% if(session.user.hasPermission('requests.create')) { %><a href="/strainorigin/edit/<%= origins[i].id %>">Edit</a><% } %></td>
+            </tr>         
+         <% } %>      
+         </tbody>
+      </table>
+      
+      <%- partial('../partials/pagination', { list : 'strainorigin' }) %>
+   </fieldset>
+</form>

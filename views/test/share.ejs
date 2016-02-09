@@ -1,0 +1,37 @@
+
+<% if(req.query.t) { %>
+<a href="/test/edit/<%= req.param('id') %>" class="new"><i class="ss-icon">&#x21A9;</i></a>
+<% } else { %>
+<a href="/test/list" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } %>
+
+<form method="post" action="/test/share/<%= req.param('id') %>" id="testShareForm" enctype="multipart/form-data" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <fieldset>
+      <legend>Share Test</legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="date">E-mail Address(es):</label></td>
+               <td><input type="text" name="email" id="email" value="<%- emails %>"/></td>
+            </tr>
+            <tr>
+               <td colspan="2">
+                <iframe id="test_preview" src="/test/preview/<%- req.param('id') %>?<%= _csrf %>" style="width:100%;height:450px"></iframe>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+   </fieldset>
+
+   <div class="buttons">
+   
+      <p>
+        <span class="checkbox"><input type="checkbox" name="expose" id="expose" /> <label for="expose">Expose Supplier Name and Logo?</label></span>    
+      </p>
+    
+      <button type="button" data-href="/test/list">Back</button> <button type="submit">Send</button>
+   </div> 
+
+   <input type="hidden" name="id" value="<%= req.param('id') %>"/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>

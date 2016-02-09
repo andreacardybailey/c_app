@@ -1,0 +1,101 @@
+<% if (session.user.hasPermission('facilities.create')) { %>
+  <a href="/user/list/?facility=<%= user.facility_id %>" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } %>
+
+<form method="put" action="/user/<%=user.id %>" enctype="multipart/form-data" id="userForm" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <% if(!session.user.hasPermission('facilities.create')) { %>
+   <input type="hidden" name="facility_id" value="<%= user.facility_id %>"/>
+   <% } %> 
+   <fieldset>
+      <legend><%= __('Update User') %></legend>
+      <table>
+         <tbody>
+            <% if(session.user.hasPermission('facilities.create')) { %>
+            <tr>
+               <td><label for="facility_id">Facility:</label></td>
+               <td>
+                  <select name="facility_id" id="facility_id">
+                  <%- facility_option_list %>
+                  </select>
+               </td>
+            </tr>
+            <% } %>
+            <tr>
+               <td><label for="firstname">First Name:</label></td>
+               <td><input type="text" size="55" name="firstname" id="firstname" value="<%= user.firstname %>" autocomplete="off"/></td>
+            </tr>
+            <tr>
+               <td><label for="lastname">Last Name:</label></td>
+               <td><input type="text" size="55" name="lastname" id="lastname" value="<%= user.lastname %>" autocomplete="off"/></td>
+            </tr>
+            <tr>
+               <td><label for="email">E-mail:</label></td>
+               <td><input type="text" size="55" name="email" id="email" value="<%= user.email %>" autocomplete="off"/></td>
+            </tr>
+            <tr>
+               <td><label for="password">Password:</label></td>
+               <td><input type="password" size="55" name="password" id="password" autocomplete="off"/></td>
+            </tr>
+            <tr>
+               <td><label for="repassword">Re-type Password:</label></td>
+               <td><input type="password" size="55" name="repassword" id="repassword" /></td>
+            </tr>
+            <tr>
+               <td><label for="logo">Avatar:</label></td>
+               <td>
+                  <input type="file" name="_avatar" id="_avatar" size="55" />
+                  <input type="hidden" name="avatar" id="avatar" value="<%- user.avatar %>" />  
+                  <img src="<%= user.avatar %>" style="<%= user.avatar ? 'display:block' : 'display:none' %>;max-width:200px"/>
+               </td>
+            </tr>   
+            <tr>
+              <td><label for="locale">Locale:</label></td>
+              <td>
+                <select name="locale" id="locale">
+                  <% sails.config.i18n.locales.forEach(function(locale){ %>
+                    <option value="<%= locale %>"<%= user.locale == locale ? ' selected="selected"' : '' %>><%= locale %></option>
+                  <% }) %>                  
+                </select>
+              </td>
+            </tr>   
+            <% if(session.user.hasPermission('facilities.create') || ( session.user.hasPermission('users.create') && user.id != req.session.user.id )) { %>
+            <tr>
+               <td><label for="permissions[]">Permissions:</label></td>
+               <td>
+                  <div class="checkbox">
+                     <ul>
+                        <li><input type="checkbox" name="permissions[]" id="permissions_1" value="facilities.create"<%= user.hasPermission('facilities.create') ? ' checked="checked"' : '' %>/> <label for="permissions_1">Create Facilities</label></li>
+                        <li><input type="checkbox" name="permissions[]" id="permissions_2" value="schemas.create"<%= user.hasPermission('schemas.create') ? ' checked="checked"' : '' %>/> <label for="permissions_2">Create Schemas</label></li>
+                        <li><input type="checkbox" name="permissions[]" id="permissions_0" value="users.create"<%= user.hasPermission('users.create') ? ' checked="checked"' : '' %>/> <label for="permissions_0">Create Users</label></li>
+                     </ul>
+                  </div>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="active">Active</label></td>
+               <td>
+                  <div class="radio">
+                     <input type="radio" name="active" value="1" id="active_1"<%= user.active ? ' checked="checked"' : ''%>><label for="active_1">Yes</label>
+                     <input type="radio" name="active" value="0" id="active_0"<%= !user.active ? ' checked="checked"' : ''%>><label for="active_0">No</label>
+                  </div>
+               </td>
+            </tr>
+            <% } %>
+         </tbody>
+      </table>
+      <div class="buttons">
+         <button type="reset" class="reset"><%= __('Reset') %></button> 
+         
+         <% if(session.user.hasPermission('facilities.create')){ %>
+         <button type="button" data-href="/facility/edit/<%= user.facility_id %>">Back to Facility</button>
+         <% } %>
+         
+         <button type="submit" class="submit"><%= __('Submit') %></button>  
+      </div>
+   </fieldset>  
+   <% if(session.user.hasPermission('users.create')){ %>
+   <input type="hidden" name="permissions[]" id="permissions_ignore" />
+   <% } %>
+   <input type="hidden" name="id" value="<%= user.id %>"/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>

@@ -1,0 +1,49 @@
+<% if (req.query.d) { %>
+ <a href="/" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } else { %>
+  <a href="/request/list" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } %>
+
+<form method="post" action="/suppliertest" id="requestForm" enctype="multipart/form-data" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <fieldset>
+      <legend>Create Request</legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="supplier_id">Supplier:</label></td>
+               <td>
+                  <select name="supplier_id" id="supplier_id">
+                     <%- supplier_option_list %>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="created">Received:</label></td>
+               <td><input type="date" id="created" name="created" value="<%- Globalize.format(new Date(), 'yyyy-MM-dd') %>" /></td>
+            </tr>
+            <tr>
+               <div class="radio">
+                  <td><label for="status">Status:</label></td>
+                  <td><input type="text" name="status" id="status" readonly="readonly" value="RECEIVED" /></td>
+               </div>
+            </tr>
+         </tbody>
+      </table>
+      <div class="buttons">
+         <button type="reset" class="reset">Reset</button> <button type="submit" clas="submit">Submit</button>  
+      </div>
+   </fieldset>
+   <input type="hidden" name="technician_id" value="<%= session.user.technician_id %>"/>
+   <input type="hidden" name="facility_id" value="<%= session.user.facility_id %>"/>
+   <input type="hidden" name="id" value=""/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  

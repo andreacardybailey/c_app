@@ -1,0 +1,64 @@
+<% if (req.query.user) { %>
+  <a href="/user/edit/<%= req.query.user %>" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } %>
+
+<form method="post" action="/technician" enctype="multipart/form-data" id="technicianForm" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <fieldset>
+      <legend>Create Technician</legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="user_id">User:</label></td>
+               <td>
+                  <select name="user_id" id="user_id">
+                    <option value="">➥ Choose User</option>
+                  <% for(var i=0; i< users.length; i++) { %>
+                  <option value="<%- users[i].id %>"><%= users[i].firstname+' '+users[i].lastname %></option>
+                  <% } %>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="badge">Badge:</label></td>
+               <td><input type="text" size="55" name="badge" id="badge" /></td>
+            </tr>
+            <tr>
+               <td><label for="permissions[]">Permissions:</label></td>
+               <td>
+                  <div class="checkbox">
+                     <ul>
+                        <li><input type="checkbox" name="permissions[]" id="permissions_0" value="tests.create"/> <label for="permissions_0">Create Tests</label></li>
+                        <li><input type="checkbox" name="permissions[]" id="permissions_6" value="tests.promote"/> <label for="permissions_6">Promote Tests</label></li>
+                        <li><input type="checkbox" name="permissions[]" id="permissions_7" value="tests.accept"/> <label for="permissions_7">Accept Tests</label></li>
+                        <li><input type="checkbox" name="permissions[]" id="permissions_1" value="requests.create"/> <label for="permissions_1">Create Requests</label></li>
+                        <li><input type="checkbox" name="permissions[]" id="permissions_2" value="strains.create"/> <label for="permissions_2">Create Strains</label></li>
+                        <li><input type="checkbox" name="permissions[]" id="permissions_4" value="access_points.create"/> <label for="permissions_4">Create Access Points</label></li>
+                        <li><input type="checkbox" name="permissions[]" id="permissions_5" value="suppliers.create"/> <label for="permissions_5">Create Suppliers</label></li>
+                     </ul>
+                  </div>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="active">Active</label></td>
+               <td>
+                  <div class="radio">
+                     <input type="radio" name="active" value="1" id="active_1" checked="checked"><label for="active_1">Yes</label>
+                     <input type="radio" name="active" value="0" id="active_0"><label for="active_0">No</label>
+                  </div>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+      <div class="buttons">
+         <button type="reset" class="reset">Reset</button> 
+         
+         <% if(req.query.facility){ %>
+         <button type="button" data-href="/facility/edit/<%= req.query.facility %>">Back to Facility</button>
+         <% } %>
+         
+         <button type="submit" class="submit">Submit</button>  
+      </div>
+   </fieldset>  
+   <input type="hidden" name="id"/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>

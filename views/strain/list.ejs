@@ -1,0 +1,35 @@
+<% if(session.user.hasPermission('strains.create')) { %>
+<a href="/strain/new" class="new"><i class="ss-icon">&#xED50;</i>New Strain</a>
+<% } %>
+
+<%- partial('../partials/search', { model : Strain } ) %>
+
+<form method="get" action="" id="strainList" name="<%- HTMLHelper.formName() %>">
+   <fieldset>
+      <legend>List strains</legend>
+      <table class="dataTable">
+         <thead>
+            <tr>
+              <th><%- HTMLHelper.tableHeaderSortable('strains.id', 'ID', req.query.dir, req.query)%></th>
+              <th><%- HTMLHelper.tableHeaderSortable('strains.name', 'Name', req.query.dir, req.query)%></th>
+              <th><%- HTMLHelper.tableHeaderSortable('strains.region', 'Region', req.query.dir, req.query)%></th>
+              <th><%- HTMLHelper.tableHeaderSortable('strains.created', 'Created', req.query.dir, req.query)%></th>
+            </tr>
+         </thead>
+         <tbody>
+         <% for(var i = 0; i < strains.length; i++) { %>
+            <tr>
+               <td><%= strains[i].id %></td>
+               <td><%= strains[i].name %></td>
+               <td><%= strains[i].region %></td>
+               <td><%= Globalize.format(strains[i].created, 'yyyy-MM-dd') %></td>
+               <td><% if(session.user.hasPermission('requests.create')) { %><a href="/strain/edit/<%= strains[i].id %>">Edit</a><% } %></td>
+            </tr>         
+         <% } %>      
+         </tbody>
+      </table>
+      
+      <%- partial('../partials/pagination', { list : 'strain' }) %>
+      
+   </fieldset>
+</form>

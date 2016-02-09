@@ -1,0 +1,7 @@
+/* compatiblity overrides */
+button::-moz-focus-inner, input[type="button"]::-moz-focus-inner, input[type="submit"]::-moz-focus-inner, input[type="reset"]::-moz-focus-inner {padding: 0;border: 0 none; } 
+select{-webkit-appearance:menulist-button;}
+textarea {-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
+img{border:0}
+body{-webkit-text-size-adjust:none;margin:0;padding:0}
+i, em {font-style:italic;}

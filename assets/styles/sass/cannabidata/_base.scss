@@ -1,0 +1,120 @@
+// ---------------------------------------------------------------------------
+// Imports
+
+@import "susy";
+
+// ---------------------------------------------------------------------------
+// Mobile-first grid
+// Keep the default grid sizes, change # of columns used
+
+$total-columns: 9; // 9 columns
+//@include rem($column-width,4rem);
+$column-width: 4rem; // columns are 4rem wide
+//@include rem($gutter-width,1rem);
+$gutter-width: 1rem; // with 1rem gutters
+//@include rem($grid-padding,1rem);
+$grid-padding: 0; // add 1rem padding on the grid container
+
+$base-font-size: 14px;
+
+$show-grid-backgrounds  : true;
+//$rem-with-px-fallback: false;
+
+// Make it fluid!
+$container-style: fluid;
+// default is 100%
+$container-width: false;
+
+// screen layout is 12 columns or has class .ie8 (for ie8)
+$screen-layout: 960px 12 ie8;
+// tablet layout is 8 columns or has class .ie8 (for ie8)
+$tablet-layout: 768px 9 ie8;
+
+// colors
+
+// fonts
+@font-face {
+    font-family: 'latobold';
+    src: url('/styles/fonts/lato-bold-webfont.eot');
+    src: url('/styles/fonts/lato-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/styles/fonts/lato-bold-webfont.woff') format('woff'),
+         url('/styles/fonts/lato-bold-webfont.ttf') format('truetype'),
+         url('/styles/fonts/lato-bold-webfont.svg#latobold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'latoregular';
+    src: url('/styles/fonts/lato-regular-webfont.eot');
+    src: url('/styles/fonts/lato-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/styles/fonts/lato-regular-webfont.woff') format('woff'),
+         url('/styles/fonts/lato-regular-webfont.ttf') format('truetype'),
+         url('/styles/fonts/lato-regular-webfont.svg#latoregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+// colors
+$white: #fff;
+$black: #000;
+$dk-grey: #3b3b3b;
+$med-grey: #666;
+$lt-grey: #cdcccb;
+$blue: #086792;
+$lt-blue: #d7eaf4;
+$green: #237f3f;
+
+$form-border-grey: #bdbdbd;
+
+$dash-border-grey: #ddd;
+$dash-lt-grey: #f9f9f9;
+
+// base
+* {
+    padding: 0; 
+    margin: 0;
+    outline: none;
+}
+html {
+  font-size: $base-font-size;
+  font-family: 'latoregular',sans-serif;
+}
+html, body { 
+  width:100%;  
+  height: 100%;
+}
+h1 {
+    @include font(2.125rem);
+}
+h2 {
+    font-weight: 500;
+    @include font(1.5rem);
+}
+h3 {
+    font-weight: 500;
+    @include font(1.25rem);
+}
+h1,h2,h3,h4,h5,h6,p{
+   @include rem(margin, .625rem 0);
+}
+ul,ol {
+    list-style-type:none;
+}
+
+#wrapper { 
+	@include container; 
+//    @include susy-grid-background;
+    min-width: 735px;
+    width: 100%;
+}
+
+// desktop
+@include at-breakpoint(960px 12) {
+    #wrapper {
+      @include container;
+      width: 100%;
+//      @include susy-grid-background;
+    }
+}

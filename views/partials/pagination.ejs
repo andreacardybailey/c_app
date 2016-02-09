@@ -1,0 +1,45 @@
+<%
+
+var query = [];
+ 
+if(req.query){
+  for(var key in req.query){
+    if(key != 'page') {
+      
+      if(_.isArray(req.query[key])) {
+        
+        req.query[key].forEach(function(val){
+          query.push(encodeURIComponent(key + '[]') + '=' + encodeURIComponent(val));
+        });
+        
+      } else {    
+      
+        query.push(encodeURIComponent(key) + '=' + encodeURIComponent(req.query[key]));
+      }
+    }
+  }
+}
+%>
+       <div class="pagination">
+           <ul>
+               <% if(pagination.pages.prev == null){ %>
+                   <li class="disabled"><a href="#">Prev</a></li>
+               <% }else{ %>
+                   <li><a href="/<%- list %>/list?page=<%- pagination.pages.prev %>&<%- query.join('&') %>">Prev</a></li>
+               <% } %>
+   
+               <% for(var i = 1; i < pagination.pages.total; i++){ %>
+                   <li class="<% if(pagination.pages.current == i){ %>active<%  } %>"><a href="/<%- list %>/list?page=<%- i %>&<%- query.join('&') %>"><%- i %></a></li>
+               <% } %>
+   
+               <% if(pagination.pages.next == null) { %>
+                   <li class="disabled"><a href="#">Next</a></li>
+               <% }else{ %>
+                   <li><a href="/<%- list %>/list?page=<%- pagination.pages.next %>&<%- query.join('&') %>">Next</a></li>
+               <% } %>
+           </ul>
+   
+           <div>
+               Showing <%- pagination.results.from %> - <%- pagination.results.to %> of <%- Globalize.format(pagination.results.total, 'n0') %>
+           </div>
+       </div>

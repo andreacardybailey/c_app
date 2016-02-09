@@ -1,0 +1,39 @@
+<div class="search">
+  <form method="get" name="<%- HTMLHelper.formName() %>" action="">
+  
+    <% if(req.query){ %>
+      <% for(var name in req.query){ %>
+        <% if(name != 'text' && name != 'filters'){ %>
+        <input type="hidden" name="<%= name %>" value="<%= req.query[name] %>" />
+        <% } %>
+      <% } %>
+    <% } %>
+  
+    <div class="search_filter">
+      <label>Filter:</label>
+      <select name="filters[]" data-search="false" data-width="20%" class="search_field">
+        <% if(model.searchFields) { %>
+          <% for(var label in model.searchFields) { %>
+            <% if(Object.prototype.toString.call(model.searchFields[label]) == '[object Object]') { %>
+            
+              <% if(model.searchFields[label].format) { %>
+              <option value="<%= label %>"<%- req.query.filters && req.query.filters[0] == label ? ' selected="selected"' : ''%> data-format="<%= model.searchFields[label].format %>"><%= label %></option>
+              <% } %>
+              
+              
+              <% if(model.searchFields[label].lookup) { %>
+              <option value="<%= label %>" <%- req.query.filters && req.query.filters[0] == label ? ' selected="selected"' : ''%>data-lookup="<%= JSON.stringify(model.searchFields[label].lookup) %>"><%= label %></option>
+              <% } %>
+              
+            <% } else { %>
+              <option value="<%- label %>"<%- req.query.filters && req.query.filters[0] == label ? ' selected="selected"' : ''%>><%= label %></option>
+            <% } %>
+          <% } %>
+        <% } %>
+      </select>
+      <span class="match">matches</span>
+      <input type="text" class="search_text" name="text[]" value="<%= req.query.text && req.query.text[0] ? req.query.text[0] : ''%>" />
+      <button type="submit" class="search_button">Go</button>
+    </div>
+  </form>
+</div>

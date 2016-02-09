@@ -1,0 +1,38 @@
+<a href="/facility/new" class="new"><i class="ss-icon">&#xE6D0;</i>New Facility</a>
+<%- partial('../partials/search', { model : Facility } ) %>
+
+<form method="get" action="" id="facilitiesList" name="<%- HTMLHelper.formName() %>">
+   <fieldset>
+      <legend>List Facilities</legend>
+      <table class="dataTable">
+         <thead>
+            <tr>
+              <th><%- HTMLHelper.tableHeaderSortable('facilities.id', 'ID', req.query.dir, req.query)%></th>
+              <th><%- HTMLHelper.tableHeaderSortable('facilities.name', 'Name', req.query.dir, req.query)%></th>
+              <th><%- HTMLHelper.tableHeaderSortable('facilities.city', 'City', req.query.dir, req.query)%></th>
+              <th><%- HTMLHelper.tableHeaderSortable('facilities.state', 'State', req.query.dir, req.query)%></th>
+              <th><%- HTMLHelper.tableHeaderSortable('facilities.created', 'Created', req.query.dir, req.query)%></th>
+            </tr>
+         </thead>
+         <tbody>
+         <% for(var i = 0; i < facilities.length; i++) { %>
+            <tr>
+               <td><%= facilities[i].id %></td>
+               <td><%= facilities[i].name %></td>
+               <td><%= facilities[i].city %></td>
+               <td><%= facilities[i].state %></td>
+               <td><%= Globalize.format(facilities[i].created, 'yyyy-MM-dd') %></td>
+               
+               <% if(session.user.hasPermission('facilities.create')) { %>
+               <td><a href="/facility/edit/<%= facilities[i].id %>">Edit</a></td>
+               <% }else{ %>
+               <td></td>
+               <% } %>
+            </tr>         
+         <% } %>      
+         </tbody>
+      </table>
+      
+      <%- partial('../partials/pagination', { list : 'facility' }) %>
+   </fieldset>
+</form>

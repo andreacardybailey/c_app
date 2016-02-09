@@ -1,0 +1,37 @@
+<% if(session.user.hasPermission('requests.create')) { %>
+<a href="/request/new" class="new"><i class="ss-icon">&#xEE00;</i>New Request</a>
+<% } %>
+
+<%- partial('../partials/search', { model : SupplierTest } ) %>
+
+<form method="get" action="" id="requestList" name="<%- HTMLHelper.formName() %>">
+   <fieldset>
+      <legend>
+      </legend>
+      <table class="dataTable">
+         <thead>
+            <tr>
+               <th><%- HTMLHelper.tableHeaderSortable('supplier_tests.id', 'ID', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('suppliers.name', 'Supplier', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('supplier_tests.status', 'Status', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('supplier_tests.created', 'Received', req.query.dir, req.query)%></th>
+               <th></th>
+            </tr>
+         </thead>
+         <tbody>
+         <% for(var i = 0; i < requests.length; i++) { %>
+            <tr>
+               <td><%= requests[i].id %></td>
+               <td><%= requests[i].supplier_name %></td>
+               <td><%= requests[i].status %></td>
+               <td><%- Globalize.format(requests[i].created, 'yyyy-MM-dd hh:mmtt') %></td>
+               <td><% if(session.user.hasPermission('requests.create')) { %><a href="/request/edit/<%= requests[i].id %>">Edit</a><% } %></td>
+            </tr>         
+         <% } %>      
+         </tbody>
+      </table>
+      
+      <%- partial('../partials/pagination', { list : 'request' }) %>
+      
+   </fieldset>
+</form>

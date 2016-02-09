@@ -1,0 +1,50 @@
+<% if (req.query.request) { %>
+  <a href="/request/edit/<%= req.query.request %>" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } %>
+
+<% if(session.user.hasPermission('requests.create')) { %>
+<a href="/sample/new<%= req.query.request ? '?request='+req.query.request : ''%>" class="new"><i class="ss-icon">&#xEE00;</i>New Sample</a>
+<% } %>
+
+<%- partial('../partials/search', { model : Sample } ) %>
+
+<form method="get" action="" id="sampleList" name="<%- HTMLHelper.formName() %>">
+   <fieldset>
+      <legend>List Samples</legend>
+      <table class="dataTable">
+         <thead>
+            <tr>
+               <th><%- HTMLHelper.tableHeaderSortable('samples.id', 'ID', req.query.dir, req.query)%></th>
+               <% if(req.session.user.hasPermission('facilities.create')){ %>
+               <th><%- HTMLHelper.tableHeaderSortable('facilities.name', 'Facility', req.query.dir, req.query)%></th>
+               <% } %>
+               <th><%- HTMLHelper.tableHeaderSortable('suppliers.name', 'Supplier', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('samples.name', 'Name', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('samples.type', 'Type', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('samples.created', 'Created', req.query.dir, req.query)%></th>
+               <th>Image</th>
+               <th></th>
+            </tr>
+         </thead>
+         <tbody>
+         <% for(var i = 0; i < samples.length; i++) { %>
+            <tr>
+               <td><%= samples[i].id %></td>
+               <% if(req.session.user.hasPermission('facilities.create')){ %>
+               <td><%= samples[i].facility_name %></td>
+               <% } %>
+               <td><%= samples[i].supplier_name %></td>
+               <td><%= samples[i].name %></td>
+               <td><%- samples[i].type %></td>
+               <td><%- Globalize.format(samples[i].created, 'yyyy-MM-dd hh:mmtt') %></td>
+               <td><a href="<%= sails.config.imageBase + samples[i].image %>" target="_blank">(image)</a></td>
+               <td><% if(session.user.hasPermission('requests.create')) { %><a href="/sample/edit/<%= samples[i].id %>">Edit</a><% } %></td>
+            </tr>         
+         <% } %>      
+         </tbody>
+      </table>
+      
+      <%- partial('../partials/pagination', { list : 'sample' }) %>
+
+   </fieldset>
+</form>

@@ -1,0 +1,47 @@
+<% if (req.query.sample) { %>
+  <a href="/sample/edit/<%= req.query.sample %>" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } %>
+
+<form method="post" action="/sampleorigin" enctype="multipart/form-data" id="sampleoriginForm" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <fieldset>
+      <legend>Create Sample Origin</legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="sample_id">Sample:</label></td>
+               <td>
+                  <select name="sample_id" id="sample_id">
+                     <option value="">➥ Select sample</option>
+                     <% for(var i=0; i <samples.length; i++) { %>
+                     <option value="<%= samples[i].id %>"<%- parseInt(req.query.sample) == samples[i].id ? ' selected="selected"' : ''%>><%= samples[i].supplier_name %> / <%= samples[i].name %> / <%= HTMLHelper.ucfirst(samples[i].type) %></option>
+                     <% } %>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="strain_id">Parent Strain:</label></td>
+               <td>
+                  <select name="strain_id" id="strain_id">
+                     <option value="">➥ Select a parent strain</option>
+                  <%- sample_parent_option_list %>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="paternity">Paternity:</label></td>
+               <td>
+                  <div class="radio">
+                     <input type="radio" name="paternity" id="paternity_m" value="MOTHER"/> <label for="paternity_m">Mother</label> 
+                     <input type="radio" name="paternity" id="paternity_f" value="FATHER"/> <label for="paternity_f">Father</label> 
+                  </div>
+               </td>
+            </tr>
+         </table>
+      </table>
+      <div class="buttons">
+         <button type="reset" class="reset">Reset</button> <button type="submit" class="submit">Submit</button>  
+      </div>
+   </fieldset>  
+   <input type="hidden" name="id" />
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>

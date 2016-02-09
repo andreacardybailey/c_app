@@ -1,0 +1,17 @@
+/* -------------------------------------------------------------------------*/
+/* IE static layout */
+/* Not responsive */
+
+.ie {
+  
+  header {
+    @include span-columns(9,9);
+    background-color: $white;
+    .logo {
+      @include rem(width, 17.69rem);
+      @include rem(height, 3.23rem);
+      @include rem(margin, .77rem 0 1.4rem 1.16rem);
+      background: url("/images/cannabidata_logo_ie.png") no-repeat left bottom;
+    }
+  }
+}

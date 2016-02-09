@@ -1,0 +1,818 @@
+/* -------------------------------------------------------------------------*/
+/* Base Layout */
+/* Tablet-first */
+/* All base styles here */
+
+@import url('../reset.css');
+
+
+
+/* base layout */
+body {
+  color: $black;
+  &.application {
+    background-color: $dk-grey;
+  }
+  a {
+    color: #8E8E8E;
+    text-decoration: none;
+  }
+  .main,.search {
+    display: block;
+  }
+  canvas.progress-internal {
+    float:right;
+    margin:15px 10px 0px 0px;
+  }
+  td > span.checkmark {
+    color:#23803F;
+    display:block;
+    text-align:center;
+  }
+  td a {
+    color:#086792;
+  }
+  td a:visited {
+    color:#086792;
+  }
+  i {
+    @include rem(margin-right, .5rem);
+    vertical-align: middle;
+  }
+  header {
+    @include span-columns(9,9);
+    @include micro_clearfix;
+    background-color: $white;
+    .logo {
+      @include rem(width, 17.69rem);
+      @include rem(height, 3.23rem);
+      @include rem(margin, 1.4rem 0 1.4rem 1.16rem);
+      text-indent: -999em;
+      background-image: url('sprite.svg');
+      @include background-size(17.89em, 3.23em);
+      background: url("/images/cannabidata-logo.svg") no-repeat left bottom;
+      float: left;
+    }
+    .person_menu {
+      float: right;
+      z-index: 100;
+      @include border-radius(6.27px);
+      background-color: $lt-blue;
+      @include rem(margin, 1.5rem 1.5rem 0 0);
+      li {
+        font-family: 'latobold',sans-serif;
+        @include rem(height, 3.2rem);
+        @include rem(padding, 0 1rem);
+        @include rem(line-height, 2.5rem);
+        position: relative;
+        a {
+          text-decoration: none;
+          color: $blue;
+          padding: 5px;
+          @include inline-block;
+        }
+        i {
+          @include inline-block;
+          &.left {
+            background-color: $white;
+            width: 2.2em;
+            height: 2.2em;
+            text-align: center;
+            vertical-align: sub;
+            @include border-radius(1.1em);
+            @include rem(margin-right, 1rem);
+          }
+          &.right {
+            @include rem(margin-left, 1rem);
+          }
+        }
+        .sub_menu {
+          display: none;
+          z-index: 99;
+          position: absolute;
+          width: 100%;
+          background-color: $lt-blue;
+          @include border-radius(0 0 6.27px 6.27px);
+          @include rem(top, 2.8rem);
+          @include rem(padding-top, .4rem);
+          left: 0;
+          a:hover{
+            color: $black;
+          }
+        }
+        &:hover {
+          .sub_menu {
+            display:block;
+          }
+        }
+      }
+    }
+  }
+  
+  .searchbar {
+    .quick_menu {
+      @include rem(font-size, 1.154rem);
+      color: $white;
+      display: block;
+      @include rem(margin, .77rem 0 .77rem 1.16rem);
+    }
+    @include span-columns(9,9);
+    background-color: $blue;
+    .search {
+      display: none;
+    }
+  }
+  .container {
+    position: relative;
+  }
+  menu {
+    // styled in px for use with jquery animate
+    display: inline-block;
+    position: fixed;
+    z-index: 1;
+    top: 117px;
+    left:-266px;
+    width: 266px;
+    list-style-type: none;
+    background: $white;
+    @include border-radius(0 0 .57em 0);
+    @include rem(box-shadow,0px 0px 12px #333);
+    a {
+      color: $white;
+      text-decoration: none;
+    }
+    li {
+      font-family: 'latobold',sans-serif;
+      @include rem(border-bottom, 1px solid $lt-grey);
+      padding: 1em 0;
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+  menu > nav > ul > li {
+    display: block;
+    text-transform: uppercase;
+    padding: 1.3em 0 1.3em 7%;
+    a {
+      color: $med-grey;
+      &:hover, &.active {
+        color: $black;
+        i {
+          color: $blue;
+        }
+      }
+    }
+  }
+
+  .tooltip {
+    @include rem(border-bottom, 1px dashed #AAA);
+  }
+
+  button {
+    background: #1E1E1E;
+    @include rem(padding, 10px 20px);
+    color: #FFF;
+    border: none;
+    border-radius:5px;
+    @include rem(box-shadow, 0 0 15px #AAA);
+    font-size:14px;
+  }
+  button + button {
+    margin-left: 2%
+  }
+  button.submit {
+    background-color:#086792;
+  }
+  button.reset {
+    background-color:#666666;
+  }
+  button:hover,button:active {
+    background-color: #383838;
+  }
+
+  div.buttons {
+    padding: 1% 0;
+    text-align: center;
+  }
+  
+  .content_box {
+    @include span-columns(9,9);
+    @include border-radius(0 .57em .57em .57em);
+    .main {
+      @include border-radius(0 .57em .57em .57em);
+      @include rem(margin, 0 1.538rem 1.538rem 1.538rem);
+      @include rem(padding, .5em 1.4rem 1.4rem 1.9rem);
+      .dashboard {
+        @include micro_clearfix;
+        .create_new {
+          @include micro_clearfix;
+          width: 100%;
+          @include rem(margin-bottom, 1rem);
+          .new {
+            margin-right: 3%;
+            &:last-child {
+              margin-right: 0;
+            }
+          }
+        }
+        .open_requests, .open_tests {
+          width: 48%;
+          margin-right:3%;
+          float: left;
+          border: 1px solid $lt-grey;
+          @include border-radius(6.27px);
+          // this hides the non-rounded corners of the form element from overlapping the rounded border
+          overflow: hidden;
+          table {
+            //@include alternating-rows-and-columns($white,$dash-lt-grey,$dash-border-grey);
+            th {
+              font-family: 'latobold',sans-serif;
+              @include rem(font-size, 1.285rem);
+              font-weight: normal;
+              @include rem(padding,.769rem);
+            }
+            tr {
+              border-bottom: 1px solid $dash-border-grey;
+              a:hover {
+                color: $black;
+                i {
+                  color: $blue;
+                }
+              }
+              &:nth-child(2n+1) {
+                background:#F4F4F4;
+              }
+              &:first-child {
+                background:#EBEBEB;
+              }
+              &:last-child {
+                border: none;
+                border-top: 2px solid $dash-border-grey ;
+                text-align: right;
+                background-color: #EBEBEB;
+                a {
+                  color: $blue;
+                  font-family: 'latobold',sans-serif;
+                  &:hover {
+                    color: $black;
+                    i {
+                      color: $black;
+                    }
+                  }
+                }
+              }
+              td {
+                line-height:18px;
+                @include rem(padding,.769rem);
+                &:last-child {
+                  @include rem(height,1.4975rem);
+                }
+              }
+            }
+          }
+          
+        }
+        .open_tests {
+          margin-right: 0;
+        }
+      }
+      form {
+        clear: both;
+        @include rem(margin-top, 1.54rem);
+        fieldset {
+          @include border-radius(.57em);
+        }
+      }
+      .new,.back {
+        @include rem(margin, 1.54rem 0);
+        display: block;
+        float: left;
+        box-shadow: none;
+        background-color: $blue;
+        @include rem(height,2.923rem);
+        @include border-radius(6.27px);
+        color: $white;
+        vertical-align: middle;
+        line-height: 2.8em;
+        padding: 0 1.3em;
+      }
+      .back {
+        padding: 0 1.2em;
+        margin-right:.6em;
+        i {
+          margin: 0;
+        }
+      }
+      .search {
+        @include rem(margin, 1.54rem 0);
+        @include rem(font-size, .9rem);
+        float: right;
+        width: 70%;
+        text-align: right;
+        form {
+          margin: 0;
+        }
+        label, input, button, select, .match{
+          @include inline-block;
+        }
+        label {
+          margin-right: 1%;
+        }
+        .chosen-container {
+          text-align: left;
+          margin-right: 1%;
+          @include border-radius(6.27px);
+        }
+        .match {
+          margin-right: 1%;
+        }
+        input {
+          width: 30%;
+          @include rem(padding, .307rem, .77rem);
+          @include rem(height,2.08rem);
+          @include border-radius(6.27px);
+          margin-right: 1%;
+          text-align: left;
+          box-shadow: none;
+          border: 1px solid $form-border-grey;
+        }
+        button {
+          box-shadow: none;
+          background-color: $blue;
+          @include rem(height,2.923rem);
+          @include border-radius(6.27px);
+          @include rem(padding, .077rem);
+          @include rem(width, 3.08rem);
+        }
+      }
+    }
+    .tabs {
+      @include rem(margin, 1.538rem 1.538rem 0 1.538rem);
+      white-space:nowrap;
+      li {
+        display: none;
+        vertical-align: bottom !important;
+        font-family: 'latobold',sans-serif;
+        text-transform: uppercase;
+        background-color: $med-grey;
+        @include rem(font-size, 1.154rem);
+        @include rem(padding, .77rem 1.8rem);
+        @include rem(margin, 0 0.1rem 0 0);
+        @include border-radius(.57em .57em 0 0);
+        a.tooltip {
+          border-bottom: none;
+        }
+        &.primary, &.primary.active {
+          @include inline-block;
+          background-color: $white;
+          a {
+            color: $dk-grey;
+            cursor: pointer;
+          }
+        }
+        &.primary, &.active, &.disabled {
+        }
+        &.active {
+          @include inline-block;
+          a {
+            color: $white;
+          }
+        }
+        &.disabled {
+          background-color: $lt-grey;
+          a {
+            cursor:not-allowed;
+          }
+        }
+      }
+    }
+  }
+  .error_bar {
+    height: 3.077em;
+  }
+  .error_page {
+    clear: both;
+    width: 95%;
+    padding-top: 1.38em;
+    line-height: 1.3em;
+    margin: 0 auto;
+  }
+  .main, .login {
+    background-color: #FFFFFF;
+    color: #5F5F5F;
+    fieldset {
+      padding: 2%;
+      background: #F4F4F4;
+      legend {
+        font-weight: bold;
+        @include rem(font-size, 1.7rem);
+        table, table th, table td {
+          border: none;
+        }
+        table {
+          &.dataTable tr td:first-child {
+            width: auto;
+          }
+          &.dataTable tr:hover {
+            background-color:#FEFEFE;
+          }
+          &.dataTable td .ss-icon {
+            font-size:10px;
+            margin-left:5px;
+          }
+          tr {
+            &:nth-child(odd) {
+              background: #EEE;
+            }
+            td {
+              small {
+                @include rem(margin-left, .76rem);
+              }
+              &:first-child {
+                width: 32%;
+                > label {
+                  @include inline-block;
+                  width: 100%;
+                  text-align: right
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .login {
+    @include span-columns(9,9);
+  }
+  .login-header {
+    border-bottom: 57px solid $blue;
+    margin-bottom: 50px;
+  }
+  .login {
+    input, button, label {
+      font-size: 16px;
+    }
+  }
+
+  // shared styles
+  
+  footer {
+    float: left;
+    width: 100%;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%
+  }
+  table th {
+    padding: 1.2%;
+    text-align: left;
+  }
+  table td {
+    padding: 1.4%;
+  }
+
+  fieldset {
+    @include rem(border, 1px solid #CCC);
+    @include rem(border-radius, 3px);
+  }
+  fieldset > p {
+    margin-top: 0;
+  }
+
+  fieldset + fieldset {
+    @include rem(margin-top, 30px);
+  }
+
+  div[id=dashboard] {
+  }
+  div[id=dashboard] > ul {
+  }
+  div[id=dashboard] > ul li + li {
+    @include rem(margin-top, 15px);
+  }
+  div[id=dashboard] > ul li ul {
+    @include rem(margin-top, 15px);
+  }
+
+
+  input[type=text],
+  input[type=date],
+  input[type=number],
+  input[type=password], textarea {
+    font-family: sans-serif;
+    padding: 1% 2%;
+    @include rem(height, 30px);
+    @include rem(font-size, 1rem);
+    width: 65%;
+    @include rem(border-radius, 3px);
+    border: none;
+    @include rem(box-shadow, 2px 2px 5px #AAA inset);
+  }
+  input[type=number] {
+    width: 20%
+  }
+  input[type=date] {
+    width: 40%
+  }
+  textarea {
+    height: auto;
+    width: 69%
+  }
+
+  input[readonly] {
+    background-color: #EEEEEE;
+    color: #8E8E8E
+  }
+
+  input[type=radio],
+  input[type=checkbox] {
+    display: none;
+  }
+
+  .radio label,
+  .checkbox label {
+    @include inline-block;
+    position: relative;
+    @include rem(padding-left, 30px);
+    @include rem(margin-right, 25px);
+  }
+
+  .radio label:before,
+  .checkbox label:before {
+    content: "";
+    @include inline-block;
+    @include rem(width, 20px);
+    @include rem(height, 20px);
+    @include rem(margin-right, 10px);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: #cdcdcd;
+    @include rem(box-shadow, inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8));
+  }
+
+  .radio label:before {
+    @include rem(border-radius, 15px);
+  }
+  .checkbox label {
+    @include rem(margin-bottom, 10px);
+  }
+  .checkbox label:before {
+    @include rem(border-radius, 3px);
+  }
+
+  input[type=radio]:checked + label:before {
+    content: "\2022";
+    color: #08678D;
+    @include rem(font-size, 56px);
+    text-align: center;
+    @include rem(line-height, 22px);
+    text-shadow: 0px 0px 5px #FFF,0px 0px 5px #FFF,0px 0px 5px #FFF,0px 0px 5px #FFF;
+  }
+
+  input[type=checkbox]:checked + label:before {
+    content: "\2713";
+    text-shadow: 0px 0px 5px #FFF,0px 0px 5px #FFF,0px 0px 5px #FFF,0px 0px 5px #FFF;
+    @include rem(font-size, 22px);
+    color: #08678D;
+    text-align: center;
+    @include rem(line-height, 22px);
+  }
+
+  /* dynamic radio buttons */
+  .checkbox *, .radio * {
+    font-family: sans-serif; 
+  }
+
+  .checkbox ul, .radio ul {
+    list-style-type: none;
+  }
+  .checkbox > ul, .radio > ul {
+    @include rem(margin, 10px 0);
+    padding: 0;
+  }
+  .checkbox li, .radio li {
+    @include rem(line-height, 22px);
+  }
+  .checkbox li ul, .radio li ul {
+    @include rem(margin, 15px 0 0 0);
+    @include rem(padding-left, 60px);
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all .5s ease-in-out;
+    -moz-transition: all .5s ease-in-out;
+    -webkit-transition: all .5s ease-in-out;
+  }
+  .checkbox li ul.open, .radio li ul.open {
+    display: block;
+    opacity: 1;
+  }
+  .checkbox li + li, .radio li + li {
+    @include rem(margin-top, 15px);
+  }
+  .checkbox li input:checked, .radio li input:checked ~ ul {
+    height: auto;
+    opacity: 1;
+  }
+
+  select {
+    @include rem(height, 30px);
+    max-width: 70%;
+  }
+  .chosen-container-single .chosen-single {
+    @include rem(height, 34px);
+    @include rem(line-height, 35px);
+  }
+  .chosen-container-single .chosen-single div b {
+    @include rem(background-position, 0px 8px);
+  }
+  .chosen-container-active.chosen-with-drop .chosen-single div b {
+    @include rem(background-position, -18px 8px);
+  }
+  .chosen-container .chosen-results li {
+    @include rem(line-height, 20px);
+  }
+
+  input[type=number] {
+    text-align: right;
+  }
+
+  fieldset > table {
+    @include rem(margin-bottom, 20px);    
+    tbody {    
+      tr {      
+        td:first-child {
+          width:30%;
+        }    
+      }
+    }
+  }
+  
+  fieldset > table.dataTable {
+    tbody {    
+      tr {      
+        td:first-child {
+          width:auto;
+        }    
+      }
+      tr:hover, tr:focus {
+        background-color:#FEFEFE;
+      }
+      td .ss-icon {
+        font-size:10px;
+        margin-left:5px;
+      }
+    }  
+  }
+
+  tr[id=elementChoices] {
+    display: none;
+  }
+  tr[id=elementUnit] {
+    display: none;
+  }
+  tr[id=sampleConcentrate] {
+    display: none;
+  }
+  tr[id=sampleExtraction] {
+    display: none;
+  }
+  tr[id=sampleIndica] {
+    display: none;
+  }
+  tr[id=sampleSativa] {
+    display: none;
+  }
+
+  fieldset[id=testEnvironment] {
+    display: none;
+  }
+  fieldset[id=testData] {
+    display: none
+  }
+
+  a.editElement, a.move, a.remove {
+    @include inline-block;
+    @include rem(height, 30px);
+    @include rem(width, 30px);
+    @include rem(line-height, 30px);
+    text-align: center;
+    text-decoration: none
+  }
+  a.editElement:hover, a.move:hover, a.remove:hover {
+    color: #000;
+  }
+  a.editElement {
+    margin-right: 2%;
+    font-size:18px;
+  }
+  a.move + a.move {
+    margin-left: 2%;
+  }
+  a.remove {
+    margin-left: 2%;
+  }
+
+  .notice {
+    @include rem(border, 1px solid #CCC);
+    @include rem(border-radius, 3px);
+    background: #FFF;
+    @include rem(font-size, 18px);
+    @include rem(line-height, 24px);
+    font-weight: bold;
+    @include rem(box-shadow, 0px 0px 10px #AAA);
+    @include rem(padding, 10px);
+    @include rem(margin, 0 0 30px 0);
+  }
+
+  .pagination {
+  }
+  .pagination ul {
+    list-style-type: none;
+    @include rem(margin, 10px 0);
+    padding: 0;
+  }
+  .pagination ul li {
+    @include inline-block;
+    @include rem(padding, 2px 8px);
+    border-radius: 3px;
+  }
+  .pagination ul li:hover {
+    background: #AAA;
+  }
+  .pagination ul li a {
+    @include rem(line-height, 24px);
+    color: #5F5F5F;
+    text-decoration: none;
+  }
+  .pagination ul li:hover a {
+    color: #EEE;
+  }
+  .pagination ul li.active {
+    background: #000;
+  }
+  .pagination ul li.active a {
+    color: #FFF;
+  }
+  .pagination ul li.disabled a {
+    color: #8E8E8E;
+  }
+
+  fieldset[id=elementGenerator] button.update {
+    display: none;
+  }
+  
+  fieldset[id=elementGenerator] button.cancel {
+    display: none;
+  }
+
+  a[id=element_derived_add] {
+    font-size:18px;
+    margin-left:5px;
+  }
+
+  div[id=elementDerivedValue], div[id=elementDefaultText] {
+    @include rem(padding, 10px 0);
+  }
+  div[id=elementDefaultSystem] {
+    @include rem(padding, 14px 0);
+    display: none;
+  }
+  div[id=elementDefaultDerived] {
+    @include rem(padding, 14px 0);
+    display: none;
+  }
+
+  /* overrides */ 
+  .atlwdg-trigger {
+    font-weight: normal !important;
+    background: #1E1E1E !important;
+    @include rem(font-size, 16px !important);
+    @include rem(padding, 5px 10px !important);
+    text-transform: uppercase;
+  }
+  
+  .chosen-container-multi .chosen-choices {
+    @include rem(border-radius, 3px);
+    @include rem(padding, 6px);
+    @include rem(box-shadow, 2px 2px 5px #AAA inset);
+    border: none;
+    width:99%;
+    
+    li.search-choice {
+      padding:6px 20px 6px 5px;
+      font-size:14px;
+
+      .search-choice-close {
+        top:7px;
+      }
+    }
+  }
+  
+}
+

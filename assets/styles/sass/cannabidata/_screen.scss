@@ -1,0 +1,42 @@
+/* -------------------------------------------------------------------------*/
+/* Desktop Layout */
+/* Includes IE8 */
+/* >= 960px */
+
+body {
+    /* SASS bug requires $xxx-layout at-breakpoint block to be nested within selector block */
+    /* all desktop styles go here */
+    @include at-breakpoint($screen-layout, 12) {
+      .app {
+        height: auto;
+      }
+      .searchbar {
+        .quick_menu {
+          visibility: hidden;
+        }
+        @include span-columns(12,12);
+        background-color: $blue;
+        .search {
+          display: none;
+        }
+      }
+      menu {
+        position: static;
+        display: inline-block;
+        @include span-columns(3,12);
+        box-shadow: none;
+      }
+      .content_box {
+        @include span-columns(9 omega,12);
+        .tabs {
+          @include rem(margin, 1.538rem 1.538rem 0 0);
+        }
+        .main {
+          @include rem(margin, 0 1.538rem 1.538rem 0);
+        }
+      }
+      .login {
+        @include span-columns(12,12);
+      }
+    }
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+   <head>
+     <title>Cannabidata Lab Application</title>
+     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+     <meta charset="utf-8"/>
+
+     <meta name="apple-mobile-web-app-capable" content="yes"/>
+     <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+     <meta name="mobile-web-app-capable" content="yes">
+     <meta name="mobile-web-app-status-bar-style" content="default"/>
+     <meta name="google" value="notranslate" content="notranslate"/>
+
+     <link rel="shortcut icon" size="16x16" href="/favicon.ico"/>
+     <link rel="shortcut icon" sizes="196x196" href="/favicon.ico"/>
+     <link rel="shortcut icon" sizes="128x128" href="/favicon.ico"/>
+     <link rel="apple-touch-icon" sizes="128x128" href="/favicon.ico"/>
+     <link rel="apple-touch-icon-precomposed" sizes="128x128" href="/favicon.ico"/>
+
+     <link rel="stylesheet" href="/styles/webfonts/ss-standard.css?<%- new Date().getTime() %>"  />
+     <link rel="stylesheet" href="/styles/chosen.css?<%- new Date().getTime() %>" />
+     <link rel="stylesheet" href="/styles/smallipop.css?<%- new Date().getTime() %>" />
+     <link rel="stylesheet" href="/styles/compiled/cannabidata.css?<%- new Date().getTime() %>" />
+
+     <!--[if lte IE 8]><script src="/js/selectivizr-min.js"></script><![endif]-->
+     <script src="/js/jquery.js"></script>
+     <script src="/js/jquery/jquery.chosen.js"></script>
+     <script src="/js/jquery/jquery.globalize.js"></script>
+   </head>
+   <body>      
+     <div id="wrapper">
+       <header>
+         <div class="logo">
+           Cannabidata
+         </div>
+       </header>
+       <section class="searchbar error_bar">
+       </section>
+       <section class="container">
+           <header>
+              <h1>Cannabidata Lab App</h1>
+           </header>
+           <section class="error_page">
+              <h3>Lab Application Services are Unavailable</h3>
+              <h4>More than likely, new updates are being applied which require the restart of services.</h4>
+              <h4>This page will automatically reload. If this page persists for more than 30 seconds, please use the Support Tab on the right to file a report.</h4>
+           </section>
+         </section>
+         <footer>
+         </footer>
+      </div>
+      <script>
+      var reload = setInterval(function(){
+         window.location.reload();
+      },5000);
+      
+      setTimeout(function(){
+         clearInterval(reload);
+      }, 30000);
+      </script>
+      <script type="text/javascript" src="https://cannatest.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e/en_USjwg7mh-1988229788/6206/7/1.4.1/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=e82fbbdd"></script>
+   </body>
+</html>

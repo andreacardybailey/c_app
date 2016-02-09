@@ -1,0 +1,42 @@
+<% if (req.query.supplier) { %>
+  <a href="/supplier/edit/<%= req.query.supplier %>" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } %>
+
+<a href="/suppliercontact/new<%= req.query.supplier ? '?supplier='+req.query.supplier : ''%>" class="new"><i class="ss-icon">&#xEE00;</i>New Contact</a>
+
+<%- partial('../partials/search', { model : SupplierContact } ) %>
+
+<form method="get" action="" id="suppliercontactList" name="<%- HTMLHelper.formName() %>">
+   <fieldset>
+      <legend>List Supplier Contact</legend>
+      <% if(req.query.supplier) {%>
+      <p><button class="button" type="button" data-href="/supplier/edit/<%= req.query.supplier %>">Back to Supplier</button></p>
+      <% } %>
+      <table class="dataTable">
+         <thead>
+            <tr>
+               <th><%- HTMLHelper.tableHeaderSortable('supplier_contacts.id', 'ID', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('suppliers.name', 'Supplier', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('supplier_contacts.firstname', 'Name', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('supplier_contacts.email', 'E-mail', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('supplier_contacts.created', 'Created', req.query.dir, req.query)%></th>
+            </tr>
+         </thead>
+         <tbody>
+         <% for(var i = 0; i < contacts.length; i++) { %>
+            <tr>
+               <td><%= contacts[i].id %></td>
+               <td><%= contacts[i].supplier_name %></td>
+               <td><%= contacts[i].contact_name %></td>
+               <td><%= contacts[i].email %></td>
+               <td><%= Globalize.format(contacts[i].created, 'yyyy-MM-dd') %></td>
+               <td><a href="/suppliercontact/edit/<%= contacts[i].id %>">Edit</a></td>
+            </tr>         
+         <% } %>      
+         </tbody>
+      </table>
+      
+      <%- partial('../partials/pagination', { list : 'supplier' }) %>
+      
+   </fieldset>
+</form>

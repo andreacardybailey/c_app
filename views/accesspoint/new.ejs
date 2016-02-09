@@ -1,0 +1,76 @@
+<% if (req.query.d) { %>
+ <a href="/" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } else { %>
+  <a href="/accesspoint/list" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } %>
+
+<form method="post" action="/accesspoint" id="accesspointForm" enctype="multipart/form-data" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <fieldset>
+      <legend>Create Access Point</legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="name">Name:</label></td>
+               <td><input type="text" name="name" id="name"  /></td>
+            </tr>
+            <tr>
+               <td><label for="address">Address:</label></td>
+               <td><input type="text" name="address" id="address"/></td>
+            </tr>
+            <tr>
+               <td><label for="city">City:</label></td>
+               <td><input type="text" name="city" id="city" /></td>
+            </tr>
+            <tr>
+               <td><label for="state">State:</label></td>
+               <td>
+                  <select name="state" id="state">
+                    <% for(var abbrev in states) { %>
+                    <option value="<%- abbrev %>"><%= states[abbrev] %></option>
+                    <% } %>                    
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="zipcode" id="zipcode">Zipcode:</label></td>
+               <td><input type="text" name="zipcode" id="zipcode" /></td>
+            </tr>
+            <tr>
+               <td><label for="lat">Lat:</label></td>
+               <td><input type="text" name="city" id="city" /></td>
+            </tr>
+            <tr>
+               <td><label for="lng">Lng:</label></td>
+               <td><input type="text" name="lng" id="lng" /></td>
+            </tr>
+            <tr>
+               <td><label for="phone" id="phone">Phone:</label></td>
+               <td><input type="text" name="phone" id="phone" /></td>
+            </tr>
+               <tr>
+               <td><label for="logo">Logo:</label></td>
+               <td>
+                  <input type="file" name="_logo" id="_logo" size="55" />
+                  <input type="hidden" name="logo" id="logo" />  
+                  <img src="" style="display:none;max-width:200px"/>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+      <div class="buttons">
+         <button type="reset" class="reset">Reset</button> <button type="submit" class="submit">Submit</button>  
+      </div>
+   </fieldset>
+   <input type="hidden" name="facility_id" id="facility_id" value="<%= session.user.facility_id %>" />
+   <input type="hidden" name="id" value=""/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  

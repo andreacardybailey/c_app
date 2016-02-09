@@ -1,0 +1,172 @@
+<a href="/schema/list" class="back"><i class="ss-icon">&#x21A9;</i></a>
+
+<form method="post" action="/schema" id="schemaForm" enctype="multipart/form-data" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <fieldset>
+      <legend>Create Testing Schema</legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="name">Name:</label></td>
+               <td><input type="text" name="name" id="name" placeholder="(optional)" /></td>
+            </tr>
+            <tr>
+               <td><label for="type_id">Sample Type:</label>
+               <td>
+                  <select name="type_id" id="type_id">
+                     <option value="">➥ Select type</option>
+                     <%- type_option_list %>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="subtype_id">Test Type:</label>
+               <td>
+                  <select name="subtype_id" id="subtype_id">
+                     <option value="">➥ Select test type</option>
+                     <%- subtype_option_list %>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="process_id">Process Point:</label>
+               <td>
+                  <select name="process_id" id="process_id">
+                     <option value="">➥ Select process</option>
+                     <%- process_option_list %>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="instructions">Instructions:</label></td>
+               <td><textarea name="instructions" id="instructions" rows="5"></textarea></td>
+            </tr>
+         </tbody>
+      </table>
+   </fieldset>
+   <fieldset id="elementGenerator">
+      <legend>Create New Element</legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="element_section">Collection Point:</label></td>
+               <td>
+                  <select name="element_collection" id="element_collection">
+                     <option value="">➥ Select collection point</option>
+                     <option value="environment">Pre-Test / Environmental Data</option>
+                     <option value="results">Post-Test / Test Results</option>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="element_label">Label:</label></td>
+               <td><input type="text" name="element_label" id="element_label"/></td>
+            </tr>
+            <tr>
+               <td><label for="element_key">Key:</label></td>
+               <td><input type="text" name="element_key" id="element_key"/></td>
+            </tr>
+            <tr>
+               <td><label for="element_type">Data Type:</label></td>
+               <td>
+                  <select name="element_type" id="element_type" placeholder="Select data type">
+                     <option value="string">String</option>
+                     <option value="text">Text</option>
+                     <option value="number">Number</option>
+                     <option value="float">Float</option>
+                     <option value="date">Date</option>
+                     <option value="boolean">Boolean</option>
+                     <option value="listsingle">List Single</option> 
+                     <option value="listmulti">List Multi</option> 
+                     <option value="image">Image</option>                     
+                  </select>
+               </td>
+            </tr>
+            <tr id="elementChoices">
+               <td><label for="element_choices">List Choices:</label></td>
+               <td><textarea name="element_choices" id="element_choices" rows="6"></textarea></td>
+            </tr>
+            <tr id="elementUnit">
+               <td><label for="element_unit">Unit of Measurement:</label></td>
+               <td><input type="text" name="element_unit" id="element_unit"/></td>
+            </tr>
+            <tr id="elementDefault">
+               <td><label for="element_default_type">Default:</label></td>
+               <td>
+                  <div class="radio">
+                     <input type="radio" name="element_default_type" id="element_default_text" value="text" checked="checked"/> <label for="element_default_text">Text Value</label>
+                     <input type="radio" name="element_default_type" id="element_default_var"  value="var"/> <label for="element_default_var">System Variable</label>
+                     <input type="radio" name="element_default_type" id="element_default_derived"  value="derived"/> <label for="element_default_derived">Derived</label>
+                  </div>       
+                  <div id="elementDefaultDerived">
+                    WHEN
+                    <select name="element_default_derived_key" id="element_default_derived_key" data-width="33%">
+                      <option value="">➥ Select lookup</option>
+                      <option value="sample.type">sample.type</option>
+                      <option value="sample.concentrate">sample.concentrate</option>
+                      <option value="sample.extraction">sample.extraction</option>
+                      <option value="sample.species">sample.species</option>
+                      <option value="sample.environment">sample.environment</option>                    
+                    </select> = 
+                    <select name="element_default_derived_val" id="element_default_derived_val" data-width="33%">
+                      <option value="">➥ Select value</option>
+                    </select>
+                    <div id="elementDerivedValue">
+                      THEN <input type="text" name="element_derived_value" id="element_derived_value" /> <a href="#submitDerived" id="element_derived_add">✚</a>   
+                    </div>              
+                  </div> 
+                  <div id="elementDefaultText">
+                     <input type="text" name="element_default_value" id="element_default_value" placeholder="(enter default value)" />                  
+                  </div>
+                  <div id="elementDefaultSystem">
+                     <select name="element_default_list" id="element_default_list">
+                     <option value="">➥ Select system variable</option>
+                     <% for(var key in sails.config.cannabidata) { %>
+                     <option value="eval:config.cannabidata['<%- key %>']"><%- key %></option>
+                     <% } %>
+                     </select>
+                  </div>        
+               </td>
+            </tr>
+            <tr>
+               <td><label for="element_label">Help Text:</label></td>
+               <td><textarea name="element_help" id="element_help" rows="4"></textarea></td>
+            </tr>
+         </tbody>
+      </table>
+      <div class="buttons">
+         <button type="button">Add</button>  
+      </div>
+   </fieldset>  
+   <fieldset id="schemaPreview">
+      <legend>Test Schema Preview</legend>
+      
+      <fieldset id="schema_environment_data">
+         <legend>Environmental Data</legend>
+         <table>
+            <tbody></tbody>
+         </table>
+      </fieldset>
+      
+      <fieldset id="schema_results_data">
+         <legend>Test Results</legend>
+         <table>
+            <tbody></tbody>
+         </table>
+      </fieldset>
+   </fieldset>      
+   <div class="buttons">
+      <button type="reset">Reset</button> <button type="submit">Submit</button>  
+   </div>
+   <input type="hidden" name="data" id="data" />
+   <input type="hidden" name="id" value=""/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  

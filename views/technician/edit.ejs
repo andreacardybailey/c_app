@@ -1,0 +1,58 @@
+<a href="/user/edit/<%= technician.user_id %>" class="back"><i class="ss-icon">&#x21A9;</i></a>
+
+<form method="put" action="/technician/<%=technician.id %>" enctype="multipart/form-data" id="technicianForm" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <fieldset>
+      <legend>Update Technician</legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="user_id">User:</label></td>
+               <td>
+                  <select name="user_id" id="user_id" >
+                  <% for(var i=0; i< users.length; i++) { %>
+                  <option value="<%- users[i].id %>"<%- users[i].id == technician.user_id ? ' selected="selected"' : ''%>><%= users[i].firstname+' '+users[i].lastname %></option>
+                  <% } %>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="badge">Badge:</label></td>
+               <td><input type="text" size="55" name="badge" id="badge" value="<%= technician.badge %>" /></td>
+            </tr>
+            <tr>
+               <td><label for="permissions[]">Permissions:</label></td>
+               <td>
+                  <div class="checkbox">
+                     <ul>
+                        <li><input type="checkbox" name="permissions[]" id="permissions_0" value="tests.create"<%= technician.hasPermission('tests.create') ? ' checked="checked"' : '' %>/> <label for="permissions_0">Create Tests</label></li>
+                        <li><input type="checkbox" name="permissions[]" id="permissions_6" value="tests.promote"<%= technician.hasPermission('tests.promote') ? ' checked="checked"' : '' %>/> <label for="permissions_6">Promote Tests</label></li>
+                        <li><input type="checkbox" name="permissions[]" id="permissions_7" value="tests.accept"<%= technician.hasPermission('tests.accept') ? ' checked="checked"' : '' %>/> <label for="permissions_7">Accept Tests</label></li>
+                        <li><input type="checkbox" name="permissions[]" id="permissions_1" value="requests.create"<%= technician.hasPermission('requests.create') ? ' checked="checked"' : '' %>/> <label for="permissions_1">Create Requests</label></li>
+                        <li><input type="checkbox" name="permissions[]" id="permissions_2" value="strains.create"<%= technician.hasPermission('strains.create') ? ' checked="checked"' : '' %>/> <label for="permissions_2">Create Strains</label></li>
+                        <li><input type="checkbox" name="permissions[]" id="permissions_4" value="access_points.create"<%= technician.hasPermission('access_points.create') ? ' checked="checked"' : '' %>/> <label for="permissions_4">Create Access Points</label></li>
+                        <li><input type="checkbox" name="permissions[]" id="permissions_5" value="suppliers.create"<%= technician.hasPermission('suppliers.create') ? ' checked="checked"' : '' %>/> <label for="permissions_5">Create Suppliers</label></li>
+                     </ul>
+                  </div>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="active">Active</label></td>
+               <td>
+                  <div class="radio">
+                     <input type="radio" name="active" value="1" id="active_1"<%= technician.active ? ' checked="checked"' : ''%>><label for="active_1">Yes</label>
+                     <input type="radio" name="active" value="0" id="active_0"<%= !technician.active ? ' checked="checked"' : ''%>><label for="active_0">No</label>
+                  </div>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+      <div class="buttons">
+         <button type="reset" class="reset">Reset</button> <button type="submit" class="submit">Submit</button>  
+      </div>
+   </fieldset>  
+   <% if(session.user.hasPermission('users.create')){ %>
+   <input type="hidden" name="permissions[]" id="permissions_ignore" />
+   <% } %>
+   <input type="hidden" name="id" value="<%= technician.id %>"/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>

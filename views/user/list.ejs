@@ -1,0 +1,47 @@
+<% if (req.query.facility) { %>
+  <a href="/facility/edit/<%= req.query.facility %>" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } %>
+<a href="/user/new<%= req.query.facility ? '?facility='+req.query.facility : ''%>" class="new"><i class="ss-icon">&#xEE00;</i>New User</a>
+
+<%- partial('../partials/search', { model : User } ) %>
+
+<form method="get" action="" id="userList" name="<%- HTMLHelper.formName() %>">
+   <fieldset>
+      <legend>List Users</legend>
+      <table class="dataTable">
+         <thead>
+            <tr>
+               <th><%- HTMLHelper.tableHeaderSortable('users.id', 'ID', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('users.firstname', 'First Name', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('users.lastname', 'Last Name', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('users.email', 'E-mail', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('users.active', 'Active', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('users.created', 'Created', req.query.dir, req.query)%></th>
+               <th></th>
+            </tr>
+         </thead>
+         <tbody>
+         <% for(var i = 0; i < users.length; i++) { %>
+            <tr>
+               <td><%= users[i].id %></td>
+               <td><%= users[i].firstname %></td>
+               <td><%= users[i].lastname %></td>
+               <td><%= users[i].email %></td>
+               <td><%= users[i].active ? 'YES' : 'NO' %></td>
+               <td><%= Globalize.format(users[i].created, 'yyyy-MM-dd') %></td>
+               
+               <% if(session.user.hasPermission('users.create')) { %>
+               <td><a href="/user/edit/<%= users[i].id %>">Edit</a></td>
+               <% } else if(session.user.id == users[i].id) { %>
+               <td><a href="/user/edit/<%= users[i].id %>">Edit</a></td>
+               <% }else{ %>
+               <td></td>
+               <% } %>
+            </tr>         
+         <% } %>      
+         </tbody>
+      </table>
+      
+      <%- partial('../partials/pagination', { list : 'user' }) %>
+   </fieldset>
+</form>

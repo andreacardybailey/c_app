@@ -1,0 +1,75 @@
+<section class="dashboard">
+  <section class="create_new">
+  
+    <% if(session.user.hasPermission('requests.create')) { %>  
+    <a href="/request/new/?d=1" class="new"><i class="ss-icon">&#xEE00;</i><%= __('New Request') %></a>
+    <% } %>
+    
+    <% if(session.user.hasPermission('tests.create')) { %> 
+    <a href="/test/new?d=1" class="new"><i class="ss-icon">&#xF4C0;</i><%= __('New Test') %></a>
+    <% } %>
+    
+    <% if(session.user.hasPermission('suppliers.create')) { %> 
+    <a href="/supplier/new?d=1" class="new"><i class="ss-icon">&#xEB85;</i><%= __('New Supplier') %></a>
+    <% } %>
+    
+    <% if(session.user.hasPermission('access_points.create')) { %> 
+    <a href="/accesspoint/new?d=1" class="new"><i class="ss-icon">&#xE6D0;</i><%= __('New Access Point') %></a>
+    <% } %>
+    
+  </section>
+  <section class="open_requests">
+    <table>
+      <tr>
+        <th colspan="2"><%= __('Recent Open Requests') %></th>
+      </tr>
+      <% if(info.requests.length > 0) { %>
+        <% var reqMax = info.requests.length > 10 ?  10 : info.requests.length %>
+        <% for(var i = 0; i < reqMax; i++) { %>
+           <tr>
+             <td>
+               <a href="/request/edit/<%- info.requests[i].id %>"><%- info.requests[i].supplier_name %><br/><%- Globalize.format(info.requests[i].created, 'dddd, MMMM dd, yyyy hh:mmtt') %> GMT</a>
+             </td>
+             <td>
+              <canvas id="rprogress_<%=i%>" class="request-progress" data-value="<%= info.requests[i].progress %>" width="60" height="60"></canvas>
+             </td>
+           </tr>
+        <% } %>
+          <tr>
+            <td colspan="2">
+              <% if(info.requests.length > 10) { %>
+                <a href="/request/list?filters%5B%5D=Status&text%5B%5D=RECEIVED"><i class="ss-icon">&#x1F440;</i><%= __('View All') %></a>
+              <% } %>
+            </td>
+          </tr>
+      <% } %>
+    </table>
+  </section>
+  <section class="open_tests">
+    <table>
+      <tr>
+        <th colspan="2"><%= __('Recent Open Tests') %></th>
+      </tr>
+      <% if(info.tests.length > 0) { %>
+       <% var testMax = info.tests.length > 10 ?  10 : info.tests.length %>
+        <% for(var i = 0; i < testMax; i++) { %>
+           <tr>
+             <td>
+               <a href="/sampletest/edit/<%- info.tests[i].id %>"><%- info.tests[i].supplier_name %> / <%- info.tests[i].sample_name %><br/><%- Globalize.format(info.tests[i].created, 'dddd, MMMM dd, yyyy hh:mmtt') %> GMT</a>
+             </td>
+             <td>
+              <canvas id="tprogress_<%=i%>" class="test-progress" data-value="<%= info.tests[i].progress %>" width="60" height="60"></canvas>
+             </td>
+           </tr>
+        <% } %>
+        <tr>
+          <td colspan="2">
+            <% if(info.tests.length > 10) { %>
+              <a href="/test/list"><i class="ss-icon">&#x1F440;</i><%= __('View All') %></a>
+            <% } %>
+          </td>
+        </tr> 
+      <% } %>
+    </table>
+  </section>
+</section>

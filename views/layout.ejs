@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <%- partial('partials/header.ejs') %>
+   </head>
+   <% if(req.header('host').match(/appdev/)) { %>
+   <div style="background:#666;padding:10px;text-align:center;font-weight:bold;color:#FFF">
+    You are viewing the development version of the Lab Application
+   </div>
+   <% } %>
+   <body class="application">
+      <div id="wrapper" class="app">
+         <header>
+           <div class="logo">
+             Cannabidata
+           </div>
+           <ul class="person_menu">
+            <li>
+              <a href="#"><i class="ss-icon left">&#x1F464;</i><%= session.user.firstname %><i class="ss-icon right">&#x25BE;</i></a>
+              <ul class="sub_menu">
+                <li>
+                  <a href="/user/profile"><%= __('Edit Profile') %></a>
+                </li>
+                <li>
+                  <a href="/auth/logout"><%= __('Logout') %></a>
+                </li>
+              </ul>
+            </li>
+           </ul>
+         </header>
+         <section class="searchbar">
+           <a href="javascript:void(0);" class="quick_menu">☰ QUICK MENU</a>
+         </section>
+         <section class="container">
+           <menu>
+             <nav>
+               <ul>
+                <li>
+                  <a href="/" class="dashboard <%= (req.target.controller === 'main') ? 'active' : '' %>"><i class="ss-icon">&#xF000;</i><%= __('Dashboard') %></a></li>
+                </li>
+                <% if(session.user.hasPermission('requests.create')) { %>
+                <li>
+                  <a href="/request/list" <%= (req.target.controller == 'suppliertest' || req.target.controller == 'sample' || req.target.controller == 'sampleorigin' ) ? 'class=active' : '' %>><i class="ss-icon">&#xEE00;</i><%= __('Requests') %></a>
+                </li>
+                <% } %>
+                <% if(session.user.hasPermission('tests.create')) { %>
+                <li>
+                  <a href="/test/list" <%= (req.target.controller == 'sampletest') ? 'class=active' : '' %>><i class="ss-icon">&#xF4C0;</i><%= __('Tests') %></a>
+                </li>
+                <% } %>
+                <% if(session.user.hasPermission('strains.create')) { %>
+                <li>
+                  <a href="/strain/list" <%= (req.target.controller == 'strain' || req.target.controller == 'strainorigin') ? 'class=active' : '' %>><i class="ss-icon">&#xED50;</i><%= __('Strains') %></a>
+                </li>
+                <% } %>
+                <% if(session.user.hasPermission('suppliers.create')) { %>
+                <li>
+                  <a href="/supplier/list" <%= (req.target.controller == 'supplier' || req.target.controller == 'suppliercontact') ? 'class=active' : '' %>><i class="ss-icon">&#xEB85;</i><%= __('Suppliers') %></a>
+                </li>
+                <% } %>
+                <% if(session.user.hasPermission('access_points.create')) { %>
+                <li>
+                  <a href="/accesspoint/list" <%= (req.target.controller == 'accesspoint') ? 'class=active' : '' %>><i class="ss-icon">&#xE6D0;</i><%= __('Access Points') %></a>
+                </li>
+                <% } %>
+                <% if(session.user.hasPermission('facilities.create')) { %>
+                <li>
+                  <a href="/facility/list" <%= (req.target.controller == 'facility' || req.target.controller == 'user' || req.target.controller == 'technician') ? 'class=active' : '' %>><i class="ss-icon">&#xE6D0;</i><%= __('Facilities') %></a>
+                </li>
+                <% } %>
+                <% if(session.user.hasPermission('schemas.create')) { %>
+                <li>
+                  <a href="/schema/list" <%= (req.target.controller == 'schema') ? 'class=active' : '' %>><i class="ss-icon">&#x22C6;</i><%= __('Schemas') %></a>
+                </li>
+                <% } %>
+              </ul>
+            </nav>
+           </menu>
+           <section class="content_box">
+             <ul class="tabs">
+                 <% switch(req.target.controller) { 
+
+                     case 'main': %>
+                     <li class="primary active dashboard"><a href="/"><i class="ss-icon">&#xF000;</i><%= __('Dashboard') %></a></li>
+                     
+                     <% if(session.user.hasPermission('requests.create')) { %>
+                     <li class="request active"><a href="/request/list"><i class="ss-icon">&#xEE00;</i><%= __('Requests') %></a></li>
+                     <% } %>
+                     
+                     <% if(session.user.hasPermission('tests.create')) { %>
+                     <li class="test active"><a href="/test/list"><i class="ss-icon">&#xF4C0;</i><%= __('Tests') %></a></li>
+                     <% } %>
+                     <% break; %>
+
+                     <% case 'suppliertest': %>
+                     <li class="active dashboard"><a href="/"><i class="ss-icon">&#xF000;</i><%= __('Dashboard') %></a></li>
+                     <li class="request primary active"><a href="/request/list"><i class="ss-icon">&#xEE00;</i><%= __('Requests') %></a></li>
+                     <li class="sample active<% if(req.target.controller == 'suppliertest' && (req.target.action == 'new' || req.target.action == 'list')){ %> disabled <%  } %>"><a href="/sample/list<%= typeof currentId !='undefined' ? '?request='+currentId : ''%>" class="tooltip" title="Edit a request to access samples"><i class="ss-icon">&#xE200;</i><%= __('Samples') %></a></li>   
+                     <li class="sample sampleorigin active<% if(req.target.controller == 'suppliertest'){ %> disabled <%  } %>"><a href="/sampleorigin/list" class="tooltip" title="Edit a sample to access sample origins"><i class="ss-icon">&#xE200;</i><%= __('Sample Origins') %></a></li>                
+                     <% break; %>
+
+                     <% case 'sampletest': %>
+                     <li class="active dashboard"><a href="/"><i class="ss-icon">&#xF000;</i><%= __('Dashboard') %></a></li>
+                     <li class="primary test active"><a href="/test/list"><i class="ss-icon">&#xF4C0;</i><%= __('Tests') %></a></li>                    
+                     <% break; %>
+
+                     <% case 'sample': %>
+                     <li class="active dashboard"><a href="/"><i class="ss-icon">&#xF000;</i><%= __('Dashboard') %></a></li>
+                     <li class="request active"><a href="/request/list"><i class="ss-icon">&#xEE00;</i><%= __('Requests') %></a></li>
+                     <li class="sample primary active"><a href="/sample/list"><i class="ss-icon">&#xE200;</i><%= __('Samples') %></a></li>   
+                     <li class="sample sampleorigin active<% if(req.target.controller == 'sample' && (req.target.action == 'new' || req.target.action == 'list')){ %> disabled <%  } %>"><a href="/sampleorigin/list<%= typeof currentId !='undefined' ? '?sample='+currentId : ''%>" class="tooltip" title="Edit a sample to access sample origins"><i class="ss-icon">&#xE200;</i><%= __('Sample Origins') %></a></li>                    
+                     <% break; %>
+
+                     <% case 'sampleorigin': %>
+                     <li class="active dashboard"><a href="/"><i class="ss-icon">&#xF000;</i><%= __('Dashboard') %></a></li>
+                     <li class="request active"><a href="/request/list"><i class="ss-icon">&#xEE00;</i><%= __('Requests') %></a></li>
+                     <li class="sample active"><a href="/sample/list"><i class="ss-icon">&#xE200;</i><%= __('Samples') %></a></li>   
+                     <li class="sample sampleorigin active primary"><a href="/sampleorigin/list"><i class="ss-icon">&#xE200;</i><%= __('Sample Origins') %></a></li>                    
+                     <% break; %>
+
+                     <% case 'strain': %>
+                     <li class="active dashboard"><a href="/"><i class="ss-icon">&#xF000;</i><%= __('Dashboard') %></a></li>
+                     <li class="strain primary active"><a href="/strain/list"><i class="ss-icon">&#xED50;</i>Strains</a></li>
+                     <li class="strain strainorigin active<% if(req.target.controller == 'strain' && (req.target.action == 'new' || req.target.action == 'list')){ %> disabled <%  } %>"><a href="/strainorigin/list<%= typeof currentId !='undefined' ? '?strain='+currentId : ''%>"><i class="ss-icon">&#xED50;</i><%= __('Strain Origins') %></a></li>
+                     <% break; %>
+
+                     <% case 'strainorigin': %>
+                     <li class="active dashboard"><a href="/"><i class="ss-icon">&#xF000;</i><%= __('Dashboard') %></a></li>
+                     <li class="strain active"><a href="/strain/list"><i class="ss-icon">&#xED50;</i>Strains</a></li>
+                     <li class="strain strainorigin active primary"><a href="/strainorigin/list" class="tooltip" title="Edit a strain to access strain origins"><i class="ss-icon">&#xED50;</i><%= __('Strain Origins') %></a></li>
+                     <% break; %>
+
+                     <% case 'supplier': %>
+                     <li class="active dashboard"><a href="/"><i class="ss-icon">&#xF000;</i><%= __('Dashboard') %></a></li>
+                     <li class="supplier active primary"><a href="/supplier/list"><i class="ss-icon">&#xEB85;</i><%= __('Suppliers') %></a></li>
+                     <li class="supplier suppliercontact active<% if(req.target.controller == 'supplier' && (req.target.action == 'new' || req.target.action == 'list')){ %> disabled <%  } %>"><a href="/suppliercontact/list<%= typeof currentId !='undefined' ? '?supplier='+currentId : ''%>" class="tooltip" title="Edit a supplier to access contacts"><i class="ss-icon">&#xEB85;</i><%= __('Contacts') %></a></li>
+                     <% break; %>
+
+                     <% case 'suppliercontact': %>
+                     <li class="active dashboard"><a href="/"><i class="ss-icon">&#xF000;</i><%= __('Dashboard') %></a></li>
+                     <li class="supplier active"><a href="/supplier/list"><i class="ss-icon">&#xEB85;</i><%= __('Suppliers') %></a></li>
+                     <li class="supplier suppliercontact active primary"><a href="/suppliercontact/list"><i class="ss-icon">&#xEB85;</i><%= __('Contacts') %></a></li>
+                     <% break; %>
+
+                     <% case 'facility': %>
+                     <li class="active dashboard"><a href="/"><i class="ss-icon">&#xF000;</i><%= __('Dashboard') %></a></li>
+                     <li class="facility active primary"><a href="/facility/list"><i class="ss-icon">&#xE6D0;</i><%= __('Facilities') %></a></li>
+                     <li class="facility user active<% if(req.target.controller == 'facility' && req.target.action == 'new'){ %> disabled <%  } %>"><a href="/user/list<%= typeof currentId !='undefined' ? '?facility='+currentId : ''%>"><i class="ss-icon">&#x1F465;</i><%= __('Users') %></a></li>
+                     <li class="facility technician active<% if(req.target.controller == 'facility' && req.target.action == 'new'){ %> disabled <%  } %>"><a href="/technician/list<%= typeof currentId !='undefined' ? '?facility='+currentId : ''%>"><i class="ss-icon">&#xF4C0;</i><%= __('Technicians') %></a></li>                    
+                     <% break; %>
+
+                     <% case 'user': %>
+                     <li class="active dashboard"><a href="/"><i class="ss-icon">&#xF000;</i><%= __('Dashboard') %></a></li>
+                     
+                     <% if(req.target.action == 'profile') {%>
+                     
+                      <li class="facility user active primary"><a href="/user/edit/<%= session.user.id %>"><i class="ss-icon">&#x1F465;</i><%= __('Profile') %></a></li>
+                     
+                     <% } else { %>
+                       
+                       <% if(session.user.hasPermission('facilities.create')) { %>
+                        <li class="facility active"><a href="/facility/list"><i class="ss-icon">&#xE6D0;</i><%= __('Facilities') %></a></li>
+                       <% } %>
+                       
+                       <% if(session.user.hasPermission('users.create')) { %>
+                        <li class="facility user active primary"><a href="/user/list"><i class="ss-icon">&#x1F465;</i><%= __('Users') %></a></li>
+                        <li class="facility technician active<% if(req.target.controller == 'user' && req.target.action == 'new'){ %> disabled <%  } %>"><a href="/technician/list<%= req.target.action == 'edit' ? '?user='+currentId : ''%>"><i class="ss-icon">&#xF4C0;</i><%= __('Technicians') %></a></li>                    
+                       <% } else { %>
+                        <li class="facility user active primary"><a href="/user/edit/<%= session.user.id %>"><i class="ss-icon">&#x1F465;</i><%= __('Users') %></a></li>
+                       <% } %>
+                       
+                       <% } %>
+                     
+                     <% break; %>
+
+                     <% case 'technician': %>
+                     <li class="active dashboard"><a href="/"><i class="ss-icon">&#xF000;</i><%= __('Dashboard') %></a></li>
+                     <li class="facility active"><a href="/facility/list"><i class="ss-icon">&#xE6D0;</i><%= __('Facilities') %></a></li>
+                     <li class="facility user active"><a href="/user/list"><i class="ss-icon">&#x1F465;</i><%= __('Users') %></a></li>
+                     <li class="facility technician active primary"><a href="/technician/list"><i class="ss-icon">&#xF4C0;</i><%= __('Technicians') %></a></li>                    
+                     <% break; %>
+
+                     <% case 'schema': %>
+                     <li class="active dashboard"><a href="/"><i class="ss-icon">&#xF000;</i><%= __('Dashboard') %></a></li>
+                     <li class="schema active primary"><a href="/schema/list"><i class="ss-icon">&#x22C6;</i>Schemas</a></li>                   
+                     <% break; %>
+
+                     <% case 'accesspoint': %>
+                     <li class="active dashboard"><a href="/"><i class="ss-icon">&#xF000;</i><%= __('Dashboard') %></a></li>
+                     <li class="accesspoint active primary"><a href="/accesspoint/list"><i class="ss-icon">&#xE6D0;</i>Access Points</a></li>                  
+                     <% break; %>                    
+
+                 <% } %>
+             </ul>
+             <section class="main">
+                 <%- body %>
+             </section>
+           </section>
+         </section>
+         <footer>
+         </footer>
+      </section>
+   <%- partial('partials/footer.ejs') %>
+   <script type="text/javascript" src="https://cannatest.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e/en_USjwg7mh-1988229788/6206/7/1.4.1/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=e82fbbdd"></script>
+   </body>
+</html>

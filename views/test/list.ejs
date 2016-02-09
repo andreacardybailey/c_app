@@ -1,0 +1,42 @@
+<% if(session.user.hasPermission('tests.create')) { %>
+<a href="/test/new" class="new"><i class="ss-icon">&#xF4C0;</i>New Test</a>
+<% } %>
+
+<%- partial('../partials/search', { model : SampleTest} ) %>
+
+<form method="get" action="" id="testList" name="<%- HTMLHelper.formName() %>">
+   <fieldset>
+      <legend>List Tests</legend>
+      <table class="dataTable">
+         <thead>
+            <tr>
+               <th></th>
+               <th><%- HTMLHelper.tableHeaderSortable('sample_tests.id', 'ID', req.query.dir)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('suppliers.name', 'Supplier', req.query.dir)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('samples.name', 'Sample', req.query.dir)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('sample_tests.status', 'Status', req.query.dir)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('sample_tests.date', 'Created', req.query.dir)%></th>
+               <th></th>
+               <th></th>
+            </tr>
+         </thead>
+         <tbody>
+         <% for(var i = 0; i < tests.length; i++) { %>
+            <tr>
+               <td><% if(tests[i].status == 'ACCEPTED'){ %><i class="ss-desktop" title="Publicly visible"></i><% } %></td>
+               <td><%= tests[i].id %></td>
+               <td><a href="/supplier/edit/<%= tests[i].supplier_id %>?r=<%- encodeURIComponent(req.url) %>"><%= tests[i].supplier_name %> <i class="ss-icon">&#xEB85;</i></a></td>
+               <td><a href="/sample/edit/<%= tests[i].sample_id %>?r=<%- encodeURIComponent(req.url)%>"><%= tests[i].sample_name %> <i class="ss-icon">&#xE200;</i></a></td>
+               <td><%= tests[i].status %></td>
+               <td><%= Globalize.format(tests[i].date, 'yyyy-MM-dd') %></td>
+               <td><a href="/test/share/<%- tests[i].id %>">Share</a></td>
+               <td><% if(session.user.hasPermission('tests.create')) { %><a href="/test/edit/<%= tests[i].id %>">Edit</a><% } %></td>
+            </tr>         
+         <% } %>      
+         </tbody>
+      </table>
+      
+      <%- partial('../partials/pagination', { list : 'test' }) %>
+
+   </fieldset>
+</form>

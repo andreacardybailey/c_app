@@ -1,0 +1,45 @@
+<% if (req.query.strain) { %>
+  <a href="/strain/edit/<%= req.query.strain %>" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } %>
+
+<form method="post" action="/strainorigin" enctype="multipart/form-data" id="strainoriginForm" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <fieldset>
+      <legend>Create Strain Origin</legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="strain_id">Strain:</label></td>
+               <td>
+                  <select name="strain_id" id="strain_id">
+                  <%- strain_option_list %>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="strain_id">Parent Strain:</label></td>
+               <td>
+                  <select name="strain_parent_id" id="strain_parent_id">
+                     <option value="">➥ Select a parent strain</option>
+                  <%- strain_parent_option_list %>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="paternity">Paternity:</label></td>
+               <td>
+                  <div class="radio">
+                     <input type="radio" name="paternity" id="paternity_m" value="MOTHER"/> <label for="paternity_m">Mother</label> 
+                     <input type="radio" name="paternity" id="paternity_f" value="FATHER"/> <label for="paternity_f">Father</label> 
+                  </div>
+               </td>
+            </tr>
+         </table>
+      </table>
+      <div class="buttons">
+         <button type="reset">Reset</button> <button type="submit">Submit</button>
+      </div>  
+   </fieldset>  
+   <input type="hidden" name="id" value=""/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+   
+</form>

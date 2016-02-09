@@ -1,0 +1,37 @@
+<a href="/supplier/new" class="new"><i class="ss-icon">&#xEB85;</i>New Supplier</a>
+<%- partial('../partials/search', { model : Supplier } ) %>
+
+<form method="get" action="" id="supplierList" name="<%- HTMLHelper.formName() %>">
+   <fieldset>
+      <legend>List Suppliers</legend>
+      <table class="dataTable">
+         <thead>
+            <tr>
+               <th><%- HTMLHelper.tableHeaderSortable('suppliers.id', 'ID', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('suppliers.name', 'Name', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('suppliers.city', 'City', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('suppliers.state', 'State', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('suppliers.active', 'Active', req.query.dir, req.query)%></th>
+               <th><%- HTMLHelper.tableHeaderSortable('suppliers.created', 'Created', req.query.dir, req.query)%></th>
+               <th></th>
+            </tr>
+         </thead>
+         <tbody>
+         <% for(var i = 0; i < suppliers.length; i++) { %>
+            <tr>
+               <td><%= suppliers[i].id %></td>
+               <td><%= suppliers[i].name %></td>
+               <td><%- suppliers[i].city %></td>
+               <td><%- suppliers[i].state %></td>
+               <td><%- suppliers[i].active ? 'YES' : 'NO' %></td>
+               <td><%- Globalize.format(suppliers[i].created, 'yyyy-MM-dd') %></td>
+               <td><%  if(session.user.hasPermission('suppliers.create')) { %><a href="/supplier/edit/<%= suppliers[i].id %>">Edit</a><% } %></td>
+            </tr>         
+         <% } %>      
+         </tbody>
+      </table>
+      
+      <%- partial('../partials/pagination', { list : 'supplier' }) %>
+      
+   </fieldset>
+</form>

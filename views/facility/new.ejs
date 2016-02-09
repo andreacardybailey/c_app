@@ -1,0 +1,61 @@
+<a href="/facility/list" class="back"><i class="ss-icon">&#x21A9;</i></a>
+
+<form method="post" action="/facility" id="facilityForm" enctype="multipart/form-data" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <fieldset>
+      <legend>Create Facility</legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="name">Name:</label></td>
+               <td><input type="text" size="55" name="name" id="name" /></td>
+            </tr>
+            <tr>
+               <td><label for="address">Address:</label></td>
+               <td><input type="text" size="55" name="address" id="address" /></td>
+            </tr>
+            <tr>
+               <td><label for="address_cont"></label></td>
+               <td><input type="text" size="55" name="address_cont" id="address_cont" placeholder="(Suite, Floor)" /></td>
+            </tr>
+            <tr>
+               <td><label for="city">City:</label></td>
+               <td><input type="text" size="55" name="city" id="city" /></td>
+            </tr>
+            <tr>
+               <td><label for="state">State:</label></td>
+               <td>
+                  <select name="state" id="state">
+                    <% for(var abbrev in states) { %>
+                    <option value="<%- abbrev %>"><%= states[abbrev] %></option>
+                    <% } %>                    
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="zipcode" id="zipcode">Zipcode:</label></td>
+               <td><input type="text" name="zipcode" id="zipcode"/></td>
+            </tr>
+            <tr>
+               <td><label for="region">Region:</label></td>
+               <td><input type="text" size="55" name="region" id="region" /></td>
+            </tr>
+            <tr>
+               <td><label for="timezone">Timezone:</td>
+               <td>
+                  <select name="timezone" id="timezone">
+                     <option value="GMT">GMT</option>
+                  <% for(var i = 0; i < timezones.length; i++){ %>
+                  <option value="<%= timezones[i] %>"><%= timezones[i] %></option>
+                  <% } %>
+                  </select>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+      <div class="buttons">
+         <button type="reset" class="reset">Reset</button> <button type="submit" class="submit">Submit</button>  
+      </div>
+   </fieldset>  
+   <input type="hidden" name="id"/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>

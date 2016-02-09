@@ -1,0 +1,59 @@
+<a href="/strain/list" class="back"><i class="ss-icon">&#x21A9;</i></a>
+
+<form method="put" action="/strain/<%= strain.id %>" id="strainForm" enctype="multipart/form-data" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <fieldset>
+      <legend>Create Strain</legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="name">Name:</label></td>
+               <td><input type="text" name="name" id="name" value="<%= strain.name %>" /></td>
+            </tr>
+            <tr>
+               <td><label for="city">Region:</label></td>
+               <td>
+                <select id="region" name="region">
+                  <% Strain.attributes.region.in.forEach(function(region){ %>
+                  <option value="<%= region %>"<%- strain.region == region ? ' selected="selected"' : ''%>"><%= region %></option>
+                  <% }); %>
+                </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="test_id">Attributed Test:</label></td>
+               <td>
+                  <select name="test_id" id="test_id" data-placeholder ="Select attributed test" data-deselect="true">
+                    <option value=""></option>
+                    <% tests.forEach(function(test){ %>
+                      <option value="<%= test.id %>"<%- parseInt(test.id) == strain.test_id ? ' selected="selected"' : '' %>>#<%= test.id + ' / ' +test.supplier_name + ' / ' + test.sample_name %></option>
+                    <% }) %>
+                     <option value="">None</option> 
+                  </select>
+                  <% if(strain.test_id) { %>
+                  &nbsp;
+                  <a href="/test/edit/<%= strain.test_id %>?r=<%= encodeURIComponent(req.url) %>"><i class="ss-icon">&#xF4C0;</i></a>
+                  <% } %>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="notes" id="notes">Notes:</label></td>
+               <td><textarea name="notes" id="notes"><%= strain.notes %></textarea></td>
+            </tr>
+         </tbody>
+      </table>
+      <div class="buttons">
+         <button type="reset" class="reset">Reset</button> <button type="submit" class="submit">Submit</button>  
+      </div>
+   </fieldset>
+   <input type="hidden" name="id" value="<%= strain.id %>"/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  

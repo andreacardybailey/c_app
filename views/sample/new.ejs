@@ -1,0 +1,249 @@
+<% if (req.query.request) { %>
+  <a href="/request/edit/<%= req.query.request %>" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } %>
+<form method="post" action="/sample" id="sampleForm" enctype="multipart/form-data" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <fieldset>
+      <legend>Create Sample for Request <% if(req.query.request) { %>#<%= req.query.request %><% } %> </legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="supplier_id">Supplier:</label></td>
+               <td>
+                  <select name="supplier_id" id="supplier_id">
+                  <% if(typeof req.query.request == 'undefined') { %>
+                     <option value="">➥ Select supplier</option>
+                  <% } %>
+                  <% for(var i=0; i < suppliers.length; i++) { %>
+                     <option value="<%- suppliers[i].id %>"><%= suppliers[i].name %></option>
+                  <% } %>
+                  <% if(suppliers.length == 0) { %>
+                     <option>❢ There are no suppliers with active tests</option>
+                  <% } %>
+                  </select>
+               </td>
+            </tr> 
+            <tr>
+               <td><label for="supplier_test_id">Request:</label></td>
+               <td>
+                  <select name="supplier_test_id" id="supplier_test_id">
+                  <% if(typeof requests != 'undefined') { %>
+                     <% for(var i=0; i < requests.length; i++) { %>
+                     <option value="<%= requests[i].id %>" selected="selected"><%= Globalize.format( new Date(requests[i].created), 'dddd, MMMM dd,yyyy hh:mmtt') %></option>
+                     <% } %>
+                  <% } %>
+                  <option>➥ Select supplier to load requests</option> 
+                  </select>
+               </td>
+            </tr> 
+            <tr>
+               <td><label for="name">Name:</label></td>
+               <td><input type="text" name="name" id="name" placeholder="" /></td>
+            </tr>
+            <tr>
+               <td><label for="type">Type:</label></td>
+               <td>
+                  <select name="type" id="type">
+                     <option value="FLOWER">Flower</option>
+                     <option value="CONCENTRATE">Concentrate / Infusion</option>
+                  </select>
+               </td>            
+            </tr>
+            <tr>
+               <td><label for="seed_type">Seed Type:</label></td>
+               <td>
+                  <select name="seed_types" id="seed_types" multiple="multiple" data-placeholder="Choose seed types">
+                    <% seeds.forEach(function(seed){ %>
+                    <option value="<%- seed.id %>""><%= seed.name %></option>
+                    <% }) %>   
+                  </select>
+               </td>            
+            </tr>
+            <tr id="sampleConcentrate">
+               <td><label for="concentrate">Concentrate:</label></td>
+               <td>
+                  <select name="concentrate" id="concentrate">
+                     <option value="">➥ Select concentrate</option>
+                     <option value="HASH">Hash</option>
+                     <option value="KIEF">Kief</option>
+                     <option value="OIL">Oil</option>
+                     <option value="BUTTER">Butter</option>
+                     <option value="TINCTURE">Tincture</option>
+                  </select>
+               </td>            
+            </tr>
+            <tr id="sampleExtraction">
+               <td><label for="extraction">Extraction:</label></td>
+               <td>
+                  <select name="extraction" id="extraction">
+                     <option value="">➥ Select method</option>
+                     <option value="BUTANE">Butane</option>
+                     <option value="CO2">Co2</option>
+                     <option value="ISOPROPLE">Isoprople</option>
+                     <option value="NAPTHA">Naptha</option>
+                     <option value="PROPANE">Propane</option>
+                  </select>
+               </td>            
+            </tr>
+            <tr>
+               <td><label for="species">Species:</label></td>
+               <td>
+                  <select name="species" id="species">
+                     <option value="INDICA">Indica</option>
+                     <option value="SATIVA">Sativa</option>
+                     <option value="HYBRID">Hybrid</option>
+                     <option value="RUDERALIS">Ruderalis</option>
+                  </select>
+               </td>            
+            </tr>
+            <tr id="sampleIndica">
+               <td><label for="indica">Indica:</label></td>
+               <td><input type="number" step="any" name="indica" id="indica"/></td>            
+            </tr>
+            <tr id="sampleSativa">
+               <td><label for="indica">Sativa:</label></td>
+               <td><input type="number" step="any" name="sativa" id="sativa"/></td>            
+            </tr>
+            <tr>
+               <td><label for="grow_medium">Grow Medium:</label></td>
+               <td>
+                  <select name="grow_medium" id="grow_medium">
+                     <option value="UNKNOWN">Unknown</option>
+                     <option value="SOIL">Soil</option>
+                     <option value="HYDRO">Hydro</option>
+                     <option value="SOILESS">Soiless</option>
+                  </select>
+               </td>            
+            </tr>
+            <tr>
+               <td><label for="size">Size:</label></td>
+               <td><input type="number" step="any" name="size" id="size" /></td>
+            </tr>
+            <tr>
+               <td><label for="yield">Yield:</label></td>
+               <td><input type="number" step="any" name="yield" id="yield" /></td>
+            </tr>
+            <tr id="sampleMaturation">
+               <td><label for="maturation">Maturation:</label></td>
+               <td><input type="number" step="any" name="maturation" id="maturation" /></td>
+            </tr>
+            <tr id="sampleGender">
+               <td><label for="sex">Sex:</label></td>
+               <td>
+                  <div class="radio">
+                     <input type="radio" name="sex" id="sex_0" value="F" checked="checked" /> <label for="sex_0">Female</label>
+                     <input type="radio" name="sex" id="sex_1" value="M" /> <label for="sex_1">Male</label>
+                  </div>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="environment">Environment:</label></td>
+               <td>
+                  <div class="radio">
+                     <input type="radio" name="environment" id="environment_0" value="INDOOR" checked="checked" /> <label for="environment_0">Indoor</label>
+                     <input type="radio" name="environment" id="environment_1" value="OUTDOOR" /> <label for="environment_1">Outdoor</label>
+                     <input type="radio" name="environment" id="environment_2" value="UNKNOWN" /> <label for="environment_2">Unknown</label>
+                  </div>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="smell">Smell:</label></td>
+               <td>
+                  <div class="radio">
+                     <ul>
+                        <li>                        
+                           <input type="radio" name="smell[0]" id="_smell_0_1" value="Bitter" checked="checked"/> <label for="_smell_0_1">Bitter</label>
+                        </li>
+                        <li>
+                           <input type="radio" name="smell[0]" id="_smell_0_2" value="Spicy"/> <label for="_smell_0_2">Spicy</label>
+                        </li>
+                        <li>
+                           <input type="radio" name="smell[0]" id="_smell_0_3" value="Sour"/> <label for="_smell_0_3">Sour</label>
+                        </li>
+                        <li>
+                           <input type="radio" name="smell[0]" id="_smell_0_0" value="Sweet"/> <label for="_smell_0_0">Sweet</label>
+                           <ul>
+                              <li>
+                                 <input type="radio" name="smell[1]" id="_smell_1_1" value="Fruity"/> <label for="_smell_1_1">Fruity</label>
+                              </li>
+                              <li>
+                                 <input type="radio" name="smell[1]" id="_smell_1_0" value="Flowery"/> <label for="_smell_1_0">Flowery</label>
+                                 <ul>
+                                    <li>
+                                       <input type="radio" name="smell[2]" id="_smell_2_0" value="Blossoms"/> <label for="_smell_2_0">Blossoms</label>
+                                    </li>
+                                    <li>
+                                       <input type="radio" name="smell[2]" id="_smell_2_1" value="Rose Like"/> <label for="_smell_2_1">Rose Like</label>
+                                       <ul>
+                                          <li>
+                                             <input type="radio" name="smell[3]" id="_smell_3_0" value="Cherry"/> <label for="_smell_3_0">Cherry</label>
+                                          </li>
+                                          <li>
+                                             <input type="radio" name="smell[3]" id="_smell_3_1" value="Apricot"/> <label for="_smell_3_1">Apricot</label>
+                                          </li>
+                                          <li>
+                                             <input type="radio" name="smell[3]" id="_smell_3_2" value="Violet"/> <label for="_smell_3_2">Violet</label>
+                                          </li>
+                                          <li>
+                                             <input type="radio" name="smell[3]" id="_smell_3_3" value="Rose"/> <label for="_smell_3_3">Rose</label>
+                                          </li>
+                                          <li>
+                                             <input type="radio" name="smell[3]" id="_smell_3_4" value="Jasmine"/> <label for="_smell_3_4">Jasmine</label>
+                                          </li>
+                                       </ul>
+                                    </li>                              
+                                 </ul>
+                              </li>
+                           </ul>   
+                        </li>               
+                     </ul>  
+                  </div>  
+               </td>
+            </tr>         
+            <tr>
+               <td><label for="pest_resistance">Pest Resistance:</label></td>
+               <td>
+                  <div class="radio">
+                     <input type="radio" name="pest_resistance" id="pest_resistance_0" value="LOW" /> <label for="pest_resistance_0">Low</label>
+                     <input type="radio" name="pest_resistance" id="pest_resistance_1" value="AVERAGE" checked="checked" /> <label for="pest_resistance_1">Average</label>
+                     <input type="radio" name="pest_resistance" id="pest_resistance_2" value="HIGH" /> <label for="pest_resistance_2">High</label>
+                  </div>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="mildew_resistance">Mildew Resistance:</label></td>
+               <td>
+                  <div class="radio">
+                     <input type="radio" name="mildew_resistance" id="mildew_resistance_0" value="LOW" /> <label for="mildew_resistance_0">Low</label>
+                     <input type="radio" name="mildew_resistance" id="mildew_resistance_1" value="AVERAGE" checked="checked" /> <label for="mildew_resistance_1">Average</label>
+                     <input type="radio" name="mildew_resistance" id="mildew_resistance_2" value="HIGH" /> <label for="mildew_resistance_2">High</label>
+                  </div>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="status">Status:</label></td>
+               <td>
+                  <div class="radio">
+                     <input type="radio" name="status" id="status_0" value="ACCEPTED" checked="checked" /> <label for="status_0">Accepted</label>
+                     <input type="radio" name="status" id="status_1" value="DECLINED" /> <label for="status_1">Declined</label>
+                  </div>
+               </td>
+            </tr>    
+
+            <tr>
+               <td><label for="image">Image:</label></td>
+               <td>
+                  <input type="file" name="_image" id="_image" size="55" />
+                  <input type="hidden" name="image" id="image" />  
+                  <img src="" style="display:none;max-width:200px"/>
+               </td>
+            </tr>    
+         </tbody>
+      </table>
+      <div class="buttons">
+         <button type="reset" class="reset">Reset</button> <button type="submit" class="submit">Submit</button>  
+      </div>
+   </fieldset>
+   <input type="hidden" name="facility_id" value="<%- session.user.facility_id %>"/>
+   <input type="hidden" name="id" value=""/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>

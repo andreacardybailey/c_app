@@ -1,0 +1,253 @@
+
+<% if(req.query.r) { %>
+<a href="<%= req.query.r %>" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } else { %>
+<a href="/request/edit/<%= sample.supplier_test_id %>" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } %>
+
+<a href="/test/new/?sample=<%= sample.id %>&r=<%- encodeURIComponent('/sample/edit/'+sample.id) %>" class="back"><i class="ss-icon">&#xF4C0;</i> Test Now</a>
+
+<form method="put" action="/sample/<%- sample.id %>" id="sampleForm" enctype="multipart/form-data" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <fieldset>
+      <legend>Update Request Sample</legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="supplier_id">Supplier:</label></td>
+               <td>
+                  <select name="supplier_id" id="supplier_id">
+                     <option value="">➥ Select supplier</option>
+                  <% for(var i=0; i < suppliers.length; i++) { %>
+                     <option value="<%- suppliers[i].id %>"<%- sample.supplier_id == suppliers[i].id ? ' selected="selected"' : ''%>><%= suppliers[i].name %></option>
+                  <% } %>
+                  <% if(suppliers.length == 0) { %>
+                     <option>❢ There are no suppliers with active tests</option>
+                  <% } %>
+                  </select>
+               </td>
+            </tr> 
+            <tr>
+               <td><label for="supplier_test_id">Request:</label></td>
+               <td>
+                  <select name="supplier_test_id" id="supplier_test_id">
+                  <option>➥ Select supplier to load requests</option> 
+                  <% for(var i=0; i < requests.length; i++) { %>
+                  <option value="<%- requests[i].id %>"<%- sample.supplier_test_id == requests[i].id ? ' selected="selected"' : ''%>><%= Globalize.format( new Date(requests[i].created), 'dddd, MMMM dd, yyyy hh:mmtt') %></option>
+                  <% } %>
+                  </select>
+               </td>
+            </tr> 
+            <tr>
+               <td><label for="name">Name:</label></td>
+               <td><input type="text" name="name" id="name" value="<%= sample.name %>" /></td>
+            </tr>
+            <tr>
+               <td><label for="type">Type:</label></td>
+               <td>
+                  <select name="type" id="type">
+                     <option value="FLOWER"<%= sample.type == 'FLOWER' ? ' selected="selected"' : ''%>>Flower</option>
+                     <option value="CONCENTRATE"<%= sample.type == 'CONCENTRATE' ? ' selected="selected"' : ''%>>Concentrate / Infusion</option>
+                  </select>
+               </td>            
+            </tr>
+            <tr>
+               <td><label for="seed_type">Seed Type:</label></td>
+               <td>
+                  <select name="seed_types" id="seed_types" multiple="multiple" data-placeholder="Choose seed types">
+                    <% stypes = sample.seed_types ? sample.seed_types.split(',') : []; %>
+                    <% seeds.forEach(function(seed){ %>
+                    <option value="<%- seed.id %>"<%- stypes.indexOf(String(seed.id)) > -1 ? ' selected="selected"' : '' %>><%= seed.name %></option>
+                    <% }) %>   
+                  </select>
+               </td>            
+            </tr>
+            <tr id="sampleConcentrate"<%- sample.type == 'CONCENTRATE' ? ' style="display:table-row"' : '' %>>
+               <td><label for="concentrate">Concentrate:</label></td>
+               <td>
+                  <select name="concentrate" id="concentrate">
+                     <option value="">➥ Select concentrate</option>
+                     <option value="HASH" <%= sample.concentrate == 'HASH' ? ' selected="selected"' : ''%>>Hash</option>
+                     <option value="KIEF" <%= sample.concentrate == 'KIEF' ? ' selected="selected"' : ''%>>Kief</option>
+                     <option value="OIL" <%= sample.concentrate == 'OIL' ? ' selected="selected"' : ''%>>Oil</option>
+                     <option value="BUTTER" <%= sample.concentrate == 'BUTTER' ? ' selected="selected"' : ''%>>Butter</option>
+                     <option value="TINCTURE" <%= sample.concentrate == 'TINCTURE' ? ' selected="selected"' : ''%>>Tincture</option>
+                  </select>
+               </td>            
+            </tr>
+            <tr id="sampleExtraction"<%- sample.concentrate == 'OIL' ? ' style="display:table-row"' : '' %>>
+               <td><label for="extraction">Extraction:</label></td>
+               <td>
+                  <select name="extraction" id="extraction">
+                     <option value="">➥ Select method</option>
+                     <option value="BUTANE"<%= sample.extraction == 'BUTANE' ? ' selected="selected"' : ''%>>Butane</option>
+                     <option value="CO2"<%= sample.extraction == 'CO2' ? ' selected="selected"' : ''%>>Co2</option>
+                     <option value="ISOPROPLE"<%= sample.extraction == 'ISOPROPLE' ? ' selected="selected"' : ''%>>Isoprople</option>
+                     <option value="NAPTHA"<%= sample.extraction == 'NAPTHA' ? ' selected="selected"' : ''%>>Naptha</option>
+                     <option value="PROPANE"<%= sample.extraction == 'PROPANE' ? ' selected="selected"' : ''%>>Propane</option>
+                  </select>
+               </td>            
+            </tr>
+            <tr>
+               <td><label for="type">Species:</label></td>
+               <td>
+                  <select name="species" id="species">
+                     <option value="INDICA"<%- sample.species =='INDICA' ? ' selected="selected"' : ''%>>Indica</option>
+                     <option value="SATIVA"<%- sample.species =='SATIVA' ? ' selected="selected"' : ''%>>Sativa</option>
+                     <option value="HYBRID"<%- sample.species =='HYBRID' ? ' selected="selected"' : ''%>>Hybrid</option>
+                     <option value="RUDERALIS"><%- sample.species =='RUDERALIS' ? ' selected="selected"' : ''%>Ruderalis</option>
+                  </select>
+               </td>            
+            </tr>
+            <tr id="sampleIndica"<%- sample.species == 'HYBRID' ? ' style="display:table-row"' : ''%>>
+               <td><label for="indica">Indica:</label></td>
+               <td><input type="number" step="any" name="indica" id="indica" value="<%= sample.indica %>"/></td>            
+            </tr>
+            <tr id="sampleSativa"<%- sample.species == 'HYBRID' ? ' style="display:table-row"' : ''%>>
+               <td><label for="indica">Sativa:</label></td>
+               <td><input type="number" step="any" name="sativa" id="sativa" value="<%= sample.sativa %>"/></td>            
+            </tr>
+            <tr>
+               <td><label for="grow_medium">Grow Medium:</label></td>
+               <td>
+                  <select name="grow_medium" id="grow_medium">
+                     <option value="UNKNOWN"<%- sample.grow_medium == 'UNKNOWN' ? ' selected="selected"' : ''%>>Unknown</option>
+                     <option value="SOIL"<%- sample.grow_medium == 'SOIL' ? ' selected="selected"' : ''%>>Soil</option>
+                     <option value="HYDRO"<%- sample.grow_medium == 'HYDRO' ? ' selected="selected"' : ''%>>Hydro</option>
+                     <option value="SOILESS"<%- sample.grow_medium == 'SOILESS' ? ' selected="selected"' : ''%>>Soiless</option>
+                  </select>
+               </td>            
+            </tr>
+            <tr>
+               <td><label for="size">Size:</label></td>
+               <td><input type="number" step="any" name="size" id="size" value="<%= sample.size %>" /></td>
+            </tr>
+            <tr>
+               <td><label for="yield">Yield:</label></td>
+               <td><input type="number" step="any" name="yield" id="yield" value="<%= sample.yield %>" /></td>
+            </tr>
+            <tr>
+               <td><label for="maturation">Maturation:</label></td>
+               <td><input type="number" step="any" name="maturation" id="maturation" value="<%= sample.maturation %>" /></td>
+            </tr>
+            <tr>
+               <td><label for="sex">Sex:</label></td>
+               <td>
+                  <div class="radio">
+                     <input type="radio" name="sex" id="sex_0" value="F" <%- sample.sex == 'F' ? ' checked="checked"' : ''%> /> <label for="sex_0">Female</label>
+                     <input type="radio" name="sex" id="sex_1" value="M" <%- sample.sex == 'M' ? ' checked="checked"' : ''%>/> <label for="sex_1">Male</label>
+                  </div>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="environment">Environment:</label></td>
+               <td>
+                  <div class="radio">
+                     <input type="radio" name="environment" id="environment_0" value="INDOOR" <%- sample.environment == 'INDOOR' ? ' checked="checked"' : ''%> /> <label for="environment_0">Indoor</label>
+                     <input type="radio" name="environment" id="environment_1" value="OUTDOOR"<%- sample.environment == 'OUTDOOR' ? ' checked="checked"' : ''%> /> <label for="environment_1">Outdoor</label>
+                     <input type="radio" name="environment" id="environment_2" value="UNKNOWN"<%- sample.environment == 'UNKNOWN' ? ' checked="checked"' : ''%> /> <label for="environment_2">Unknown</label>
+                  </div>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="smell">Smell:</label></td>
+               <td>
+                  <div class="radio">
+                     <ul>
+                        <li>                        
+                           <input type="radio" name="smell[0]" id="_smell_0_1" value="Bitter" <%- sample.smellsLike('Bitter') ? ' checked="checked"' : ''%>/> <label for="_smell_0_1">Bitter</label>
+                        </li>
+                        <li>
+                           <input type="radio" name="smell[0]" id="_smell_0_2" value="Spicy"<%- sample.smellsLike('Spicy') ? ' checked="checked"' : ''%>/> <label for="_smell_0_2">Spicy</label>
+                        </li>
+                        <li>
+                           <input type="radio" name="smell[0]" id="_smell_0_3" value="Sour"<%- sample.smellsLike('Sour') ? ' checked="checked"' : ''%>/> <label for="_smell_0_3">Sour</label>
+                        </li>
+                        <li>
+                           <input type="radio" name="smell[0]" id="_smell_0_0" value="Sweet"<%- sample.smellsLike('Sweet') ? ' checked="checked"' : ''%>/> <label for="_smell_0_0">Sweet</label>
+                           <ul>
+                              <li>
+                                 <input type="radio" name="smell[1]" id="_smell_1_1" value="Fruity"<%- sample.smellsLike('Fruity') ? ' checked="checked"' : ''%>/> <label for="_smell_1_1">Fruity</label>
+                              </li>
+                              <li>
+                                 <input type="radio" name="smell[1]" id="_smell_1_0" value="Flowery"<%- sample.smellsLike('Flowery') ? ' checked="checked"' : ''%>/> <label for="_smell_1_0">Flowery</label>
+                                 <ul>
+                                    <li>
+                                       <input type="radio" name="smell[2]" id="_smell_2_0" value="Blossoms"<%- sample.smellsLike('Blossoms') ? ' checked="checked"' : ''%>/> <label for="_smell_2_0">Blossoms</label>
+                                    </li>
+                                    <li>
+                                       <input type="radio" name="smell[2]" id="_smell_2_1" value="Rose Like"<%- sample.smellsLike('Rose Like') ? ' checked="checked"' : ''%>/> <label for="_smell_2_1">Rose Like</label>
+                                       <ul>
+                                          <li>
+                                             <input type="radio" name="smell[3]" id="_smell_3_0" value="Cherry"<%- sample.smellsLike('Cherry') ? ' checked="checked"' : ''%>/> <label for="_smell_3_0">Cherry</label>
+                                          </li>
+                                          <li>
+                                             <input type="radio" name="smell[3]" id="_smell_3_1" value="Apricot"<%- sample.smellsLike('Apricot') ? ' checked="checked"' : ''%>/> <label for="_smell_3_1">Apricot</label>
+                                          </li>
+                                          <li>
+                                             <input type="radio" name="smell[3]" id="_smell_3_2" value="Violet"<%- sample.smellsLike('Violet') ? ' checked="checked"' : ''%>/> <label for="_smell_3_2">Violet</label>
+                                          </li>
+                                          <li>
+                                             <input type="radio" name="smell[3]" id="_smell_3_3" value="Rose"<%- sample.smellsLike('Rose') ? ' checked="checked"' : ''%>/> <label for="_smell_3_3">Rose</label>
+                                          </li>
+                                          <li>
+                                             <input type="radio" name="smell[3]" id="_smell_3_4" value="Jasmine"<%- sample.smellsLike('Jasmine') ? ' checked="checked"' : ''%>/> <label for="_smell_3_4">Jasmine</label>
+                                          </li>
+                                       </ul>
+                                    </li>                              
+                                 </ul>
+                              </li>
+                           </ul>   
+                        </li>               
+                     </ul>
+                  </div>    
+               </td>
+            </tr>         
+            <tr>
+               <td><label for="pest_resistance">Pest Resistance:</label></td>
+               <td>
+                  <div class="radio">
+                     <input type="radio" name="pest_resistance" id="pest_resistance_0" value="LOW"<%- sample.pest_resistance == 'LOW' ? ' checked="checked"' : ''%> /> <label for="pest_resistance_0">Low</label>
+                     <input type="radio" name="pest_resistance" id="pest_resistance_1" value="AVERAGE"<%- sample.pest_resistance == 'AVERAGE' ? ' checked="checked"' : ''%> /> <label for="pest_resistance_1">Average</label>
+                     <input type="radio" name="pest_resistance" id="pest_resistance_2" value="HIGH"<%- sample.pest_resistance == 'HIGH' ? ' checked="checked"' : ''%> /> <label for="pest_resistance_2">High</label>
+                  </div>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="mildew_resistance">Mildew Resistance:</label></td>
+               <td>
+                  <div class="radio">
+                     <input type="radio" name="mildew_resistance" id="mildew_resistance_0" value="LOW"<%- sample.mildew_resistance == 'LOW' ? ' checked="checked"' : ''%> /> <label for="mildew_resistance_0">Low</label>
+                     <input type="radio" name="mildew_resistance" id="mildew_resistance_1" value="AVERAGE" <%- sample.mildew_resistance == 'AVERAGE' ? ' checked="checked"' : ''%>/> <label for="mildew_resistance_1">Average</label>
+                     <input type="radio" name="mildew_resistance" id="mildew_resistance_2" value="HIGH"<%- sample.mildew_resistance == 'HIGH' ? ' checked="checked"' : ''%> /> <label for="mildew_resistance_2">High</label>
+                  </div>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="status">Status:</label></td>
+               <td>
+                  <div class="radio">
+                     <input type="radio" name="status" id="status_0" value="ACCEPTED" <%- sample.status == 'ACCEPTED' ? ' checked="checked"' : '' %> /> <label for="status_0">Accepted</label>
+                     <input type="radio" name="status" id="status_1" value="DECLINED" <%- sample.status == 'DECLINED' ? ' checked="checked"' : '' %>/> <label for="status_1">Declined</label>
+                  </div>
+               </td>
+            </tr>    
+
+            <tr>
+               <td><label for="image">Image:</label></td>
+               <td>
+                  <input type="file" name="_image" id="_image" size="55" />
+                  <input type="hidden" name="image" id="image" value="<%- sample.image %>" />  
+                  <img src="<%= sails.config.imageBase + sample.image %>" style="<%= sample.image ? 'display:block' : 'display:none' %>;max-width:200px"/>
+               </td>
+            </tr>    
+         </tbody>
+      </table>
+      <div class="buttons">
+         <button type="reset" class="reset">Reset</button>          
+         <button type="button" data-href="/sampleorigin/list?sample=<%= sample.id %>">View Sample Origins</button>
+         <button type="submit" class="submit">Submit</button> 
+      </div> 
+   </fieldset>
+   <input type="hidden" name="id" value=""/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>

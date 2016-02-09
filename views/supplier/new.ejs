@@ -1,0 +1,103 @@
+<% if (req.query.d) { %>
+ <a href="/" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } else { %>
+  <a href="/supplier/list" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } %>
+
+<form method="post" action="/supplier" id="supplierForm" enctype="multipart/form-data" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <fieldset>
+      <legend>Create Supplier</legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="name">Name:</label></td>
+               <td><input type="text" name="name" id="name" /></td>
+            </tr>
+            <tr>
+               <td><label for="types">Type:</label></td>
+               <td>
+                  <select name="types[]" id="types" data-placeholder="Choose supplier types" multiple="multiple">
+                    <option value="">Unknown</option>
+                    <% types.forEach(function(type){ %>
+                    <option value="<%- type.id %>"><%= type.name %></option>
+                    <% }) %>                 
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="city">City:</label></td>
+               <td><input type="text" name="city" id="city"/></td>
+            </tr>
+            <tr>
+               <td><label for="state">State:</label></td>
+               <td>
+                  <select name="state" id="state" data-deselect="true" data-placeholder="Choose supplier state">
+                    <option value=""></option>
+                    <% for(var abbrev in states) { %>
+                    <option value="<%- abbrev %>"><%= states[abbrev] %></option>
+                    <% } %>                 
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="zipcode" id="zipcode">Postal Code:</label></td>
+               <td><input type="text" name="zipcode" id="zipcode"/></td>
+            </tr>
+            <tr>
+               <td><label for="country">Country:</label></td>
+               <td>
+                  <select name="country" id="country" data-deselect="true" data-placeholder="Choose supplier country">
+                    <option value=""></option>
+                    <% countries.forEach(function(country){ %>
+                    <option value="<%- country.code %>"><%= country.name %></option>
+                    <% }) %>                 
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="timezone">Timezone:</td>
+               <td>
+                  <select name="timezone" id="timezone">
+                     <option value="GMT">GMT</option>
+                  <% for(var i = 0; i < timezones.length; i++){ %>
+                  <option value="<%= timezones[i] %>"><%= timezones[i] %></option>
+                  <% } %>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="logo">Logo:</label></td>
+               <td>
+                  <input type="file" name="_logo" id="_logo" size="55" />
+                  <input type="hidden" name="logo" id="logo" />      
+                  <img src="" style="display:none;max-width:200px"/>         
+               </td>
+            </tr> 
+            <tr>
+               <td><label for="active">Active:</label></td>
+               <td>
+                  <div class="radio">
+                     <input type="radio" name="active" id="active_1" value="1" checked="checked"/> <label for="active_1">Yes</label>
+                     <input type="radio" name="active" id="active_0" value="0"/> <label for="active_0">No</label>
+                  </div>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+      <div class="buttons">
+         <button type="reset" class="reset">Reset</button> <button type="submit" class="submit">Submit</button>  
+      </div>
+   </fieldset>
+   <input type="hidden" name="facility_id" id="facility_id" value="<%= session.user.facility_id %>" />
+   <input type="hidden" name="id" value=""/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  

@@ -1,0 +1,55 @@
+<a href="/strain/list" class="back"><i class="ss-icon">&#x21A9;</i></a>
+
+<form method="post" action="/strain" id="strainForm" enctype="multipart/form-data" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <fieldset>
+      <legend>Create Strain</legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="name">Name:</label></td>
+               <td><input type="text" name="name" id="name" /></td>
+            </tr>
+            <tr>
+               <td><label for="city">Region:</label></td>
+               <td>
+                <select id="region" name="region">
+                  <% Strain.attributes.region.in.forEach(function(region){ %>
+                  <option value="<%= region %>"><%= region %></option>
+                  <% }); %>
+                </select>               
+               </td>
+            </tr>
+            <tr>
+               <td><label for="test_id">Attributed Test:</label></td>
+               <td>
+                  <select name="test_id" id="test_id" data-placeholder ="Select attributed test" data-deselect="true">
+                    <option value=""></option>
+                    <% tests.forEach(function(test){ %>
+                      <option value="<%= test.id %>">#<%= test.id + ' / ' + test.supplier_name + ' / ' + test.sample_name %></option>
+                    <% }) %>
+                     <option value="">None</option> 
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="notes" id="notes">Notes:</label></td>
+               <td><textarea name="notes" id="notes"></textarea></td>
+            </tr>
+         </tbody>
+      </table>
+      <div class="buttons">
+         <button type="reset" class="reset">Reset</button> <button type="submit" class="submit">Submit</button>  
+      </div>
+   </fieldset>
+   <input type="hidden" name="id" value=""/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  

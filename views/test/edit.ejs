@@ -1,0 +1,147 @@
+<% if(req.query.r) { %>
+  <a href="<%= req.query.r %>" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } else { %>
+  <a href="/test/list" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } %>
+
+<canvas id="tprogress_<%=test.id%>" class="test-progress progress-internal" data-value="<%= test.progress %>" width="60" height="60"></canvas>
+
+<a href="/test/share/<%= test.id %>?t=1" class="new"><i class="ss-icon">&#xF4C0;</i>Share Test</a>
+
+<form method="put" action="/sampletest/<%- test.id %>" id="testForm" enctype="multipart/form-data" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <% if(latest > schema.revision && session.user.hasPermission('tests.promote')){ %>
+   <div class="notice">
+    Their is a new revision of this Test's <span class="tooltip" title="A user defined set of elements to be used for testing sample">Schema</span>. You can promote the revision of this Test's Schema or leave as-is. Note that promoting a Schema revision may result in data loss if <span class="tooltip" title="Fields defined in a Schema">Elements</span> were removed in the latest <span class="tooltip" title="A historical instance of a Schema's Elements">Schema Revision</span>.<br/>
+    Do you want to promote this test to the latest Schema Revision?  &nbsp; <a href="#" class="close">No</a> &nbsp; &nbsp;  <a href="/test/promote/<%- test.id %>/<%- latest %>">Yes</a>
+   </div>
+   <% } %>   
+   <fieldset>
+      <legend>Update Test <% if(test.status == 'ACCEPTED'){ %> (<i class="ss-desktop"></i> Public)<% } %> </legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="date">Start Date:</label></td>
+               <td><input type="date" name="date" id="date" size="10" value="<%= Globalize.format( new Date(test.date), 'yyyy-MM-dd') %>" readonly="true" /></td>
+            </tr>
+            <tr>
+               <td><label for="status">Status:</label></td>
+               <td>
+                  <select name="status" id="status">
+                     <option value="IN PROGRESS"<%- test.status == 'IN PROGRESS' ? ' selected="selected"' : ''%>>In Progress</option>
+                     <option value="READY FOR REVIEW"<%- test.status == 'READY FOR REVIEW' ? ' selected="selected"' : ''%>>Ready for Review</option>
+                     <% if(session.user.hasPermission('tests.accept')) { %>
+                     <option value="ACCEPTED"<%- test.status == 'ACCEPTED' ? ' selected="selected"' : ''%>>Accepted</option>
+                     <% } %>
+                     <option value="ON HOLD"<%- test.status == 'ON HOLD' ? ' selected="selected"' : ''%>>On Hold</option>
+                     <option value="CANCELLED"<%- test.status == 'CANCELLED' ? ' selected="selected"' : ''%>>Cancelled</option>
+                     <option value="EXPIRED"<%- test.status == 'EXPIRED' ? ' selected="selected"' : ''%>>Expired</option>
+                  </select>
+               </td>
+            </tr>        
+            <tr>
+               <td><label for="uic">UIC:</label></td>
+               <td><input type="text" name="uic" id="uic" size="10" value="<%- test.uic %>" /></td>
+            </tr>   
+            <tr>
+               <td><label for="supplier">Supplier:</label></td>
+               <td>
+                   <input type="hidden" name="supplier_id" value="<%= test.supplier_id %>" />
+                  <% for(var i=0; i < suppliers.length; i++) { %>
+                     <% if(suppliers[i].id == test.supplier_id) { %>                      
+                     <input type="text" disabled="disabled" readonly="readonly" value="<%= suppliers[i].name %> / <%= suppliers[i].city %>"/> 
+                     <% } %>
+                  <% } %>     
+                  &nbsp;
+                  <a href="/supplier/edit/<%- test.supplier_id%>?r=<%= encodeURIComponent(req.url) %>"><i class="ss-icon">&#xEB85;</i></a>
+               </td>            
+            </tr>
+            <tr>
+               <td><label for="request">Request:</label></td>
+               <td>
+                  <input type="hidden" name="supplier_test_id" value="<%= test.supplier_test_id %>" />
+                  <% for(var i=0; i < requests.length; i++) { %>
+                     <% if(requests[i].id == test.supplier_test_id) { %>
+                     <input type="text" disabled="disabled" readonly="readonly" value="<%= Globalize.format( new Date(requests[i].created), 'dddd, MMMM dd,yyyy hh:mmtt') %>"/> 
+                     <% } %>
+                  <% } %>
+                  &nbsp;
+                  <a href="/request/edit/<%- test.supplier_test_id%>?r=<%= encodeURIComponent(req.url) %>"><i class="ss-icon">&#xEE00;</i></a>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="supplier">Sample:</label></td>
+               <td>
+                  <input type="hidden" name="sample_id" value="<%= test.sample_id %>" />
+                  <% for(var i=0; i < samples.length; i++) { %>
+                     <% if(samples[i].id == test.sample_id) { %>
+                     <input type="text" disabled="disabled" readonly="readonly" value="<%= samples[i].name %>"/> 
+                     <% } %>
+                  <% } %>
+                  &nbsp;
+                  <a href="/sample/edit/<%- test.sample_id %>?r=<%= encodeURIComponent(req.url) %>"><i class="ss-icon">&#xE200;</i></a> 
+               </td>  
+            </tr>
+            <tr>
+               <td><label for="schema_id">Test Type:</label></td>
+               <td>
+                  <input type="hidden" name="schema_id" value="<%= test.schema_id %>" />
+                  <% for(var i=0; i < schemas.length; i++) { %>
+                     <% if(schemas[i].id == test.schema_id) { %>
+                     <input type="text" disabled="disabled" readonly="readonly" value="<%= schemas[i].full_name %>"/> 
+                     <% } %>
+                  <% } %>
+               </td>            
+            </tr>  
+         </tbody>
+      </table>
+   </fieldset>
+   <fieldset id="testEnvironment" style="display:block">
+      <legend>Work Area/Environment</legend>
+      <table>
+         <tbody>
+         <% if(schema && schema.data.environment) { %>
+            <% for(var key in schema.data.environment) { %>
+               <% var element = schema.data.environment[key] %>
+               <% var val = test.results && test.results.environment && test.results.environment.hasOwnProperty(key) ? test.results.environment[key] : null %>
+               <% element.defaultsTo = val === null || val == 'null' ? '' : String(val) %>               
+               <%- HTMLHelper.schemaElement('environment', key, element, false) %>
+            <% } %>         
+         <% } %>         
+         </tbody>
+      </table>   
+   </fieldset>
+   
+   <fieldset id="testData" style="display:block">
+      <legend>Captured Data Points</legend>
+      <table>
+         <tbody>
+         <% if(schema && schema.data.results) { %>
+            <% for(var key in schema.data.results) { %>
+               <% var element = schema.data.results[key] %>
+               <% var val = test.results && test.results.results && test.results.results.hasOwnProperty(key) ? test.results.results[key] : null %>
+               <% element.defaultsTo = val === null || val == 'null' ? '' : String(val) %> 
+               <%- HTMLHelper.schemaElement('results', key, element, false) %>
+            <% } %>         
+         <% } %>                  
+         </tbody>
+      </table> 
+   </fieldset>
+
+   <div class="buttons">
+      <button type="reset" class="reset">Reset</button> <button type="submit" class="submit">Submit</button>
+   </div> 
+
+   <input type="hidden" name="results" id="results" value="<%= JSON.stringify(test.results) %>" />
+   <input type="hidden" name="technician_id" value="<%= session.user.technician_id %>" />
+   <input type="hidden" name="facility_id" value="<%= test.facility_id %>" />
+   <input type="hidden" name="id" value="<%= test.id %>"/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+   
+   <script>
+   <% for(var coll in schema.data) { %>
+      <% for(var key in schema.data[coll]) { %>
+         $("tr[data-id='<%-coll %>_<%- key %>']").data('element', <%- JSON.stringify(schema.data[coll][key]) %>);
+      <% } %>
+   <% } %>
+   </script>
+</form>

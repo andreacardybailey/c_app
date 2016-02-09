@@ -1,0 +1,102 @@
+<% if (req.query.d) { %>
+ <a href="/" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } else if(req.query.r) { %>
+  <a href="<%= req.query.r %>" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } else { %>
+  <a href="/test/list" class="back"><i class="ss-icon">&#x21A9;</i></a>
+<% } %>
+
+<form method="post" action="/sampletest" id="testForm" enctype="multipart/form-data" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <fieldset>
+      <legend>Create Test</legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="date">Start Date:</label></td>
+               <td><input type="date" name="date" id="date" size="10" value="<%= Globalize.format( new Date(), 'yyyy-MM-dd') %>" readonly="true" /></td>
+            </tr>
+            <tr>
+               <td><label for="status">Status:</label></td>
+               <td>
+                  <input type="text" name="status" id="status" value="INITIATED" readonly="true" />
+               </td>
+            </tr> 
+            <tr>
+               <td><label for="uic">UIC:</label></td>
+               <td><input type="text" name="uic" id="uic" size="10" /></td>
+            </tr>       
+            <tr>
+               <td><label for="supplier">Supplier:</label></td>
+               <td>
+                  <select name="supplier_id" id="supplier_id">
+                     <option value="">➥ Select supplier</option>
+                  <% for(var i=0; i < suppliers.length; i++) { %>
+                     <option value="<%- suppliers[i].id %>"><%= suppliers[i].name %> / <%= suppliers[i].city %></option>
+                  <% } %>
+                  <% if(suppliers.length == 0) { %>
+                     <option>❢ There are no suppliers with active tests</option>
+                  <% } %>
+                  </select>
+               </td>            
+            </tr>
+            <tr>
+               <td><label for="request">Request:</label></td>
+               <td>
+                  <select name="supplier_test_id" id="supplier_test_id">
+                     <option>➥ Select supplier to load requests</option>                  
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="supplier">Sample:</label></td>
+               <td>
+                  <select name="sample_id" id="sample_id">
+                     <option>➥ Select request to load samples</option>
+                  </select>
+               </td>            
+            </tr>
+            <tr>
+               <td><label for="schema_id">Test Type:</label></td>
+               <td>
+                  <select name="schema_id" id="schema_id">
+                     <option value="">➥ Select type of test</option>
+                  <% for(var i=0; i < schemas.length; i++) { %>
+                  <option value="<%- schemas[i].id %>"><%= schemas[i].full_name %></option> 
+                  <% } %>
+                  </select>
+               </td>            
+            </tr>
+         </tbody>
+      </table>
+   </fieldset>
+   <fieldset id="testEnvironment">
+      <legend>Work Area/Environment</legend>
+      <table>
+         <tbody>
+         
+         </tbody>
+      </table>   
+   </fieldset>
+   
+   <fieldset id="testData">
+      <legend>Captured Data Points</legend>
+      <table>
+         <tbody>
+         
+         </tbody>
+      </table> 
+   </fieldset>
+   <div class="buttons">
+      <button type="reset" class="reset">Reset</button> <button type="submit" class="submit">Submit</button>
+   </div>  
+   <input type="hidden" name="results" id="results" />
+   <input type="hidden" name="technician_id" value="<%= session.user.technician_id %>" />
+   <input type="hidden" name="facility_id" value="<%= session.user.facility_id %>" />
+   <input type="hidden" name="id" value=""/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>
+<% if(sample){ %>
+<script>
+window.Sample = <%- JSON.stringify(sample) %>;
+</script>
+<% } %>

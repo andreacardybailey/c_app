@@ -1,0 +1,62 @@
+<form method="put" action="/facility" id="facilityForm" enctype="multipart/form-data" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <fieldset>
+      <legend>Update Facility</legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="name">Name:</label></td>
+               <td><input type="text" size="55" name="firstname" id="name" value="<%= facility.name %>" /></td>
+            </tr>
+            <tr>
+               <td><label for="address">Address:</label></td>
+               <td><input type="text" size="55" name="address" id="address" value="<%- facility.address %>" /></td>
+            </tr>
+            <tr>
+               <td><label for="address_cont"></label></td>
+               <td><input type="text" size="55" name="address_cont" id="address_cont" placeholder="(Suite, Floor)" value="<%- facility.address_cont %>" /></td>
+            </tr>
+            <tr>
+               <td><label for="city">City:</label></td>
+               <td><input type="text" size="55" name="city" id="city" value="<%- facility.city %>" /></td>
+            </tr>
+            <tr>
+               <td><label for="state">State:</label></td>
+               <td>
+                  <select name="state" id="state">
+                    <% for(var abbrev in states) { %>
+                    <option value="<%- abbrev %>"<%= facility.state == abbrev ? ' selected="selected"' : '' %>><%= states[abbrev] %></option>
+                    <% } %>                    
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="zipcode" id="zipcode">Zipcode:</label></td>
+               <td><input type="text" name="zipcode" id="zipcode" value="<%- facility.zipcode %>"/></td>
+            </tr>
+            <tr>
+               <td><label for="region">Region:</label></td>
+               <td><input type="text" size="55" name="region" id="region" value="<%- facility.region %>" /></td>
+            </tr>
+            <tr>
+               <td><label for="timezone">Timezone:</td>
+               <td>
+                  <select name="timezone" id="timezone">
+                     <option value="GMT">GMT</option>
+                  <% for(var i = 0; i < timezones.length; i++){ %>
+                  <option value="<%= timezones[i] %>"<%= facility.timezone == timezones[i] ? ' selected="selected"' : '' %>><%= timezones[i] %></option>
+                  <% } %>
+                  </select>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+      <div class="buttons">
+         <button type="reset" class="reset">Reset</button> 
+         <button type="button" data-href="/user/list?facility=<%= facility.id %>">View Users</button>
+         <button type="button" data-href="/technician/list?facility=<%= facility.id %>">View Technicians</button>
+         <button type="submit" class="submit">Submit</button>  
+      </div>
+   </fieldset>  
+   <input type="hidden" name="id" value="<%= facility.id %>"/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>

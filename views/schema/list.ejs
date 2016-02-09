@@ -1,0 +1,29 @@
+<a href="/schema/new" class="new"><i class="ss-icon">&#x22C6;</i>New Schema</a>
+<%- partial('../partials/search', { model : Schema } ) %>
+
+<form method="get" action="" id="schemaList" name="<%- HTMLHelper.formName() %>">
+   <fieldset>
+      <legend>List Schemas</legend>
+      <table class="dataTable">
+         <thead>
+            <tr>
+               <th>ID</th><th>Name</th><th>Created</th><th>Updated</th><th></th>
+            </tr>
+         </thead>
+         <tbody>
+         <% for(var i = 0; i < schemas.length; i++) { %>
+            <tr>
+               <td><%= schemas[i].id %></td>
+               <td><%= schemas[i].full_name %></td>
+               <td><%= Globalize.format(schemas[i].created, 'yyyy-MM-dd') %></td>
+               <td><%= schemas[i].updated ? Globalize.format(schemas[i].updated, 'yyyy-MM-dd') : 'Never' %></td>
+               <td><% if(session.user.hasPermission('requests.create')) { %><a href="/schema/edit/<%= schemas[i].id %>">Edit</a><% } %></td>
+            </tr>         
+         <% } %>      
+         </tbody>
+      </table>
+      
+      <%- partial('../partials/pagination', { list : 'schema' }) %>
+      
+   </fieldset>
+</form>

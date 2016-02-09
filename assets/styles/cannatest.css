@@ -1,0 +1,217 @@
+@import url('clearfix.css');
+@import url('reset.css');
+
+@font-face {
+    font-family: 'latobold';
+    src: url('/styles/fonts/lato-bold-webfont.eot');
+    src: url('/styles/fonts/lato-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/styles/fonts/lato-bold-webfont.woff') format('woff'),
+         url('/styles/fonts/lato-bold-webfont.ttf') format('truetype'),
+         url('/styles/fonts/lato-bold-webfont.svg#latobold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'latoregular';
+    src: url('/styles/fonts/lato-regular-webfont.eot');
+    src: url('/styles/fonts/lato-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/styles/fonts/lato-regular-webfont.woff') format('woff'),
+         url('/styles/fonts/lato-regular-webfont.ttf') format('truetype'),
+         url('/styles/fonts/lato-regular-webfont.svg#latoregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* base layout */
+body{font-size:14px;font-family:'latoregular',sans-serif;padding:0;background:#F4F4F4;color:#5F5F5F;font-size:16px}
+a{color:#8E8E8E}
+main,search{display:block}
+menu {width:25%;position:relative;float:left;margin:0;padding:20px 0;list-style-type:none;background:#CCC;color:#FFF;box-shadow:0px 0px 12px #333}
+menu a {color:#FFF;text-decoration:none}
+menu li:nth-child(n+3) {margin-top:20px}
+menu > li {float:left;width:96%;min-height:40px;padding:0 2%;}
+menu > li > a {display:block;height:40px;line-height:40px;font-size:20px;padding-left:4%;}
+menu dl {margin:0;padding:0 4%}
+menu dl dt {height:40px;line-height:40px;font-size:16px;color:#333;float:left;width:60%}
+menu dl dd {text-align:center;line-height:40px;height:40px;margin:0;padding:0;float:left;width:40%}
+menu dl dd a {font-family:sans-serif;font-size:18px;display:inline-block;width:40px;height:40px;margin:0 2%;background:#777;border-radius:20px}
+menu dl dd a:hover, menu dl dd a:active {background-color:#383838}
+
+div[id=wrapper]{padding-top:1px}
+
+.tooltip {border-bottom:1px dashed #AAA}
+.content_box .tabs li a.tooltip {border-bottom:none}
+
+search{display:none}
+
+header{position:relative;padding:1%;color:#FFF;height:40px;background:#002231 url('/images/logo.png') no-repeat 75% 15px;border-bottom:1px solid #333}
+header h1 {font-family:'latoregular';font-size:32px;margin:0;line-height:40px;text-transform:uppercase}
+header h1 small {font-size:16px;vertical-align:top}
+header h5{float:right;margin:0;padding:1%;font-size:14px;background:#002231}
+header h5 a {color:#FFF;}
+
+@media only screen and (max-width:1024px){
+   header { text-indent:-666em;background-position:center center}
+   menu dl dt {float:none;width:auto}
+   menu dl dd {float:none;width:auto}
+}
+
+button{background:#1E1E1E;padding:10px 20px;font-size:16px;color:#FFF;border:none;box-shadow:0 0 15px #AAA}
+button + button {margin-left:2%}
+button:hover,button:active{background-color:#383838}
+
+div.buttons{padding:1% 0;text-align:center}
+
+main {width:71%;float:right;padding:2%;background-color:#FFFFFF;color:#5F5F5F;}
+
+main.login {width:96%}
+
+footer {float:left;width:100%}
+
+table{border-collapse:collapse;width:100%}
+table th{padding:1.2%;}
+table td{padding:1.4%;}
+
+fieldset{border:1px solid #CCC;border-radius:3px;}
+fieldset > p {margin-top:0}
+
+fieldset + fieldset { margin-top:30px}
+
+div[id=dashboard]{}
+div[id=dashboard] > ul{}
+div[id=dashboard] > ul li + li {margin-top:15px}
+div[id=dashboard] > ul li ul {margin-top:15px}
+
+main fieldset{padding:2%;background:#F4F4F4}
+main fieldset legend{font-weight:bold;font-size:24px}
+main fieldset table, main fieldset table th, main fieldset table td {border:none}
+main fieldset table tr:nth-child(odd){background:#EEE}
+main fieldset table tr td:first-child {width:32%}
+main fieldset table tr td:first-child > label {display:inline-block;width:100%;text-align:right}
+main fieldset fieldset legend {font-size:20px}
+main fieldset table tr td small{margin-left:10px}
+main fieldset table.dataTable tr td:first-child {width:auto}
+
+
+input[type=text],
+input[type=date],
+input[type=number],
+input[type=password], textarea {font-family:sans-serif;padding:1% 2%;height:30px;font-size:16px;width:65%;border-radius:3px;border:none;box-shadow:2px 2px 5px #AAA inset}
+input[type=number]{width:20%}
+input[type=date]{width:40%}
+textarea{height:auto;width:69%}
+
+input[readonly]{background-color:#EEEEEE;color:#8E8E8E}
+
+input[type=radio],
+input[type=checkbox] { display: none; }
+
+.radio label,
+.checkbox label {display:inline-block;position:relative;padding-left:30px;margin-right:25px}
+
+.radio label:before,
+.checkbox label:before { 
+	content: "";
+	display: inline-block;
+
+	width: 20px;
+	height: 20px;
+
+	margin-right: 10px;
+	position: absolute;
+	left: 0;
+	bottom: 0px;
+	background-color: #aaa;
+	box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
+}
+
+.radio label:before {
+	border-radius: 15px;
+}
+.checkbox label {
+	margin-bottom: 10px;
+}
+.checkbox label:before {
+    border-radius: 3px;
+}
+
+input[type=radio]:checked + label:before {
+    content: "\2022";
+    color: #f3f3f3;
+    font-size: 56px;
+    text-align: center;
+    line-height: 22px;
+    text-shadow:0px 0px 5px #333;
+}
+
+input[type=checkbox]:checked + label:before {
+	content: "\2713";
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+	font-size: 22px;
+	color: #f3f3f3;
+	text-align: center;
+    line-height: 22px;
+}
+
+/* dynamic radio buttons */
+.checkbox *, .radio * {font-family:sans-serif}
+
+.checkbox ul, .radio ul {list-style-type:none;}
+.checkbox > ul, .radio > ul {margin:10px 0;padding:0}
+.checkbox li, .radio li {line-height:22px}
+.checkbox li ul, .radio li ul {margin:15px 0 0 0;padding-left:60px;height:0;overflow:hidden;opacity:0;
+   transition: all .5s ease-in-out;
+   -moz-transition: all .5s ease-in-out;
+   -webkit-transition: all .5s ease-in-out;
+}
+.checkbox li ul.open, .radio li ul.open {display:block;opacity:1}
+.checkbox li + li, .radio li + li {margin-top:15px}
+.checkbox li input:checked, .radio li input:checked ~ ul {height:auto;opacity:1}
+
+select {height:30px;font-size:16px;max-width:70%;}
+.chosen-container{font-size:16px}
+.chosen-container-single .chosen-single {height:34px;line-height:35px}
+.chosen-container-single .chosen-single div b{background-position:0px 8px}
+.chosen-container-active.chosen-with-drop .chosen-single div b{background-position:-18px 8px}
+.chosen-container .chosen-results li{line-height:20px}
+
+input[type=number]{text-align:right}
+
+fieldset > table{margin-bottom:20px}
+
+tr[id=elementChoices]{display:none}
+tr[id=elementUnit]{display:none}
+tr[id=sampleConcentrate]{display:none}
+tr[id=sampleExtraction]{display:none}
+tr[id=sampleIndica] {display:none}
+tr[id=sampleSativa]{display:none}
+
+fieldset[id=testEnvironment]{display:none}
+fieldset[id=testData]{display:none}
+
+a.editElement, a.move, a.remove {display:inline-block;height:30px;width:30px;line-height:30px;text-align:center;text-decoration:none}
+a.editElement:hover, a.move:hover, a.remove:hover{color:#000}
+a.editElement{margin-right:2%}
+a.move + a.move {margin-left:2%}
+a.remove{margin-left:2%}
+
+.notice {border:1px solid #CCC;border-radius:3px;background:#FFF;font-size:18px;line-height:28px;text-align:center;font-weight:bold;box-shadow:0px 0px 10px #AAA;padding:10px;margin:0 0 30px 0}
+
+.pagination{}
+.pagination ul{list-style-type:none;margin:10px 0;padding:0}
+.pagination ul li {display:inline-block;padding:2px 8px;border-radius:3px}
+.pagination ul li:hover{background:#AAA;}
+.pagination ul li a {line-height:24px;color:#5F5F5F;text-decoration:none}
+.pagination ul li:hover a {color:#EEE}
+.pagination ul li.active{background:#000;}
+.pagination ul li.active a{color:#FFF}
+.pagination ul li.disabled a {color:#8E8E8E}
+
+div[id=elementDefaultText]{padding:10px 0}
+div[id=elementDefaultSystem]{padding:14px 0;display:none}
+
+/* overrides */ 
+.atlwdg-trigger{font-weight:normal !important;background:#1E1E1E !important;font-size:16px !important; padding:5px 10px !important;text-transform:uppercase}
+.chosen-container-multi .chosen-choices {border-radius:3px;padding:4px;box-shadow:2px 2px 5px #AAA inset;border:none}

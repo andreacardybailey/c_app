@@ -1,0 +1,58 @@
+<form method="put" action="/user/<%=user.id %>" enctype="multipart/form-data" id="userForm" name="<%- HTMLHelper.formName() %>" data-submit="ajax">
+   <% if(!session.user.hasPermission('facilities.create')) { %>
+   <input type="hidden" name="facility_id" value="<%= user.facility_id %>"/>
+   <% } %> 
+   <fieldset>
+      <legend><%= __('Update Profile') %></legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="firstname">First Name:</label></td>
+               <td><input type="text" size="55" name="firstname" id="firstname" value="<%= user.firstname %>" /></td>
+            </tr>
+            <tr>
+               <td><label for="lastname">Last Name:</label></td>
+               <td><input type="text" size="55" name="lastname" id="lastname" value="<%= user.lastname %>" /></td>
+            </tr>
+            <tr>
+               <td><label for="email">E-mail:</label></td>
+               <td><input type="text" size="55" name="email" id="email" value="<%= user.email %>" /></td>
+            </tr>
+            <tr>
+               <td><label for="password">Password:</label></td>
+               <td><input type="password" size="55" name="password" id="password" /></td>
+            </tr>
+            <tr>
+               <td><label for="repassword">Re-type Password:</label></td>
+               <td><input type="password" size="55" name="repassword" id="repassword" /></td>
+            </tr>
+            <tr>
+               <td><label for="logo">Avatar:</label></td>
+               <td>
+                  <input type="file" name="_avatar" id="_avatar" size="55" />
+                  <input type="hidden" name="avatar" id="avatar" value="<%- user.avatar %>" />  
+                  <img src="<%= user.avatar %>" style="<%= user.avatar ? 'display:block' : 'display:none' %>;max-width:200px"/>
+               </td>
+            </tr>     
+            <tr>
+              <td><label for="locale">Locale:</label></td>
+              <td>
+                <select name="locale" id="locale">
+                  <% sails.config.i18n.locales.forEach(function(locale){ %>
+                    <option value="<%= locale %>"<%= user.locale == locale ? ' selected="selected"' : '' %>><%= locale %></option>
+                  <% }) %>                  
+                </select>
+              </td>
+            </tr>  
+         </tbody>
+      </table>
+      <div class="buttons">
+         <button type="reset"><%= __('Reset') %></button>          
+         
+         <button type="submit"><%= __('Submit') %></button>  
+      </div>
+   </fieldset>  
+
+   <input type="hidden" name="id" value="<%= user.id %>"/>
+   <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+</form>

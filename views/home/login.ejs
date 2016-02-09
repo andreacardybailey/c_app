@@ -1,0 +1,25 @@
+<form method="post" action="/auth/login" id="login" name="<%- HTMLHelper.formName() %>">
+   <fieldset>
+      <legend>Login</legend>
+      <table>
+         <tbody>
+            <tr>
+               <td><label for="username">E-mail or Badge:</label></td>
+               <td><input type="text" name="email" id="email" /></td>
+            </tr>
+            <tr>
+               <td><label for="password">Password:</label></td>
+               <td><input type="password" name="password" type="password" id="password"></td>
+            </tr>
+         </tbody>
+      </table>
+      <div class="buttons">
+         <button type="reset">Reset</button> <button type="submit">Login</button>  
+      </div>
+      <% if (typeof message != 'undefined') { %>
+      <div class="message"><%= message %></div>
+      <% } %>
+   </fieldset>
+   <input type="hidden" name="r" value="<%= req.query.r %>" />
+   <input type="hidden" name="_csrf" value="<%- _csrf %>" />
+</form>
